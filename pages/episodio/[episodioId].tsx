@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 import AnimesListOverflow from "../../components/AnimesListOverflow";
@@ -43,39 +44,48 @@ export async function getStaticPaths() {
 }
 
 export default function Episodio({ dataEpisodio }: any) {
-    console.log(
-        "🚀 ~ file: [dataEpisodio].tsx:61 ~ Episodio ~ episodioId",
-        dataEpisodio
-    );
-    return (
-        <div>
-            <div className="bg-[#131219] text-white h-screen flex mx-auto flex-col">
-                <div className="flex h-2/3 my-auto flex-col">
-                    <div className="flex w-1/2 mx-auto flex-col mt-auto">
-                        <div className="flex justify-start">
-                            <Link
-                                href="/home"
-                                className="px-4 py-2 bg-white text-black rounded-lg font-bold"
-                            >
-                                Voltar
-                            </Link>
+    const Content = () => {
+        return (
+            <>
+                <div>
+                    <div className="bg-[#131219] text-white h-screen flex mx-auto flex-col">
+                        <div className="flex h-2/3 my-auto flex-col">
+                            <div className="flex w-1/2 mx-auto flex-col mt-auto">
+                                <div className="flex justify-start">
+                                    <Link
+                                        href="/home"
+                                        className="px-4 py-2 bg-white text-black rounded-lg font-bold"
+                                    >
+                                        Voltar
+                                    </Link>
+                                </div>
+                                <div className="text-white font-bold py-6 text-3xl ">
+                                    {dataEpisodio[0].title}
+                                </div>
+                            </div>
+                            <div className="flex w-1/2 mx-auto ">
+                                <video
+                                    controls
+                                    src={`${
+                                        dataEpisodio[0].locationsd
+                                            ? dataEpisodio[0].locationsd
+                                            : dataEpisodio[0].location
+                                    }`}
+                                ></video>
+                            </div>
                         </div>
-                        <div className="text-white font-bold py-6 text-3xl ">
-                            {dataEpisodio[0].title}
-                        </div>
-                    </div>
-                    <div className="flex w-1/2 mx-auto ">
-                        <video
-                            controls
-                            src={`${
-                                dataEpisodio[0].locationsd
-                                    ? dataEpisodio[0].locationsd
-                                    : dataEpisodio[0].location
-                            }`}
-                        ></video>
                     </div>
                 </div>
-            </div>
-        </div>
+            </>
+        );
+    };
+
+    return (
+        <>
+            <Head>
+                <title>{dataEpisodio[0].title}</title>
+            </Head>
+            <Content />
+        </>
     );
 }

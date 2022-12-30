@@ -9,6 +9,7 @@ import ModalEps from "../../components/ModalEps";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
+import Head from "next/head";
 
 const App = (props: any) => {
     const [animeData, setAnimeData] = useState<any>([]);
@@ -85,63 +86,68 @@ const App = (props: any) => {
     //     }, 2500);
     // }, []);
 
-    return (
-        <div className="flex mx-auto">
-            <div className="p-4">
+    const Content = () => {
+        return (
+            <div className="flex mx-auto">
+                {/* <div className="p-4">
                 <input
                     // onChange={(e) => setSearch(e.target.value)}
                     className="p-4 rounded-2xl border  "
                     type="text"
                     placeholder="buscar"
                 />
-            </div>
-            <div className="flex flex-wrap  gap-3 py-20">
-                {loading
-                    ? animeData.map((item: any) => {
-                          return (
-                              <>
-                                  <Skeleton
-                                      variant="rectangular"
-                                      width="150px"
-                                      height="190px"
-                                  >
-                                      <div />
-                                  </Skeleton>
-                              </>
-                          );
-                      })
-                    : animeData.map((data: any) => {
-                          return (
-                              <a
-                                  href={`episodio/${data.video_id}`}
-                                  style={{
-                                      backgroundImage: `url(
+            </div> */}
+                <div className="flex flex-wrap  gap-3 py-20">
+                    {loading
+                        ? animeData.map((item: any) => {
+                              return (
+                                  <>
+                                      <Skeleton
+                                          variant="rectangular"
+                                          width="150px"
+                                          height="190px"
+                                      >
+                                          <div />
+                                      </Skeleton>
+                                  </>
+                              );
+                          })
+                        : animeData.map((data: any) => {
+                              return (
+                                  <a
+                                      href={`episodio/${data.video_id}`}
+                                      style={{
+                                          backgroundImage: `url(
                                           ${urlImage}${data.category_image}
                                       )`,
-                                      backgroundRepeat: "no-repeat",
-                                      backgroundPosition: "center",
-                                      backgroundSize: "cover",
-                                  }}
-                                  key={data.id}
-                                  id={data.id}
-                                  className="h-[300px] w-[250px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
-                              >
-                                  <div className="h-[25%] w-full bg-black bg-opacity-60 ">
-                                      <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
-                                          {data.title}
+                                          backgroundRepeat: "no-repeat",
+                                          backgroundPosition: "center",
+                                          backgroundSize: "cover",
+                                      }}
+                                      key={data.id}
+                                      id={data.id}
+                                      className="h-[300px] w-[250px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
+                                  >
+                                      <div className="h-[25%] w-full bg-black bg-opacity-60 ">
+                                          <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
+                                              {data.title}
+                                          </div>
                                       </div>
-                                  </div>
-                              </a>
-                          );
-                      })}
+                                  </a>
+                              );
+                          })}
+                </div>
             </div>
+        );
+    };
 
-            {/* <video
-          className="w-full"
-          controls
-          src="https://get.atv2.net/m.php?token=ZVJmMVBsTjBzaTljUGpFbXVHRTNUbENSQ3FlenFHRDZRbmlhNlA2VkROUnB3RmpNQUowUkJiblZnVEpOZ0I2SjA3VmlwZEpWaG1nZUFWRFNLWE5JVE9EbWJRN2pqL2Q5MGRuOWlwcDZxNTdyNjU2THM3V2dneC9HT0tlMGdhK2xyck5QSFZTMHJmelZ1c2F5ditqM1gwTmZHY2xMVy8yNGRLQks0TnFEd3UrV3dBbFZUc2VzSXR6T1RBd0JwNTNS&qh=sd"
-        ></video> */}
-        </div>
+    return (
+        <>
+            <Head>
+                <title>Anime App</title>
+            </Head>
+            <Content />
+        </>
     );
 };
 
