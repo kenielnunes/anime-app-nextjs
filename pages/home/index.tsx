@@ -88,16 +88,11 @@ const App = (props: any) => {
 
     const Content = () => {
         return (
-            <div className="flex mx-auto">
-                {/* <div className="p-4">
-                <input
-                    // onChange={(e) => setSearch(e.target.value)}
-                    className="p-4 rounded-2xl border  "
-                    type="text"
-                    placeholder="buscar"
-                />
-            </div> */}
-                <div className="flex flex-wrap  gap-3 py-20">
+            <div className="flex mx-auto flex-col">
+                <div className="flex justify-center py-20 text-4xl font-bold">
+                    No momento são apenas os lançamentos, novidades em breve 👀
+                </div>
+                <div className="flex flex-wrap justify-center gap-3 pb-10">
                     {loading
                         ? animeData.map((item: any) => {
                               return (
