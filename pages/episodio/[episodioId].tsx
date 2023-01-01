@@ -49,8 +49,8 @@ export default function Episodio({ dataEpisodio }: any) {
             <>
                 <div>
                     <div className="bg-[#131219] text-white h-screen flex mx-auto flex-col">
-                        <div className="flex h-2/3 my-auto flex-col">
-                            <div className="flex w-1/2 mx-auto flex-col mt-auto">
+                        <div className="flex lg:h-2/3 my-auto flex-col">
+                            <div className="flex lg:w-1/2 px-4 mx-auto flex-col mt-auto">
                                 <div className="flex justify-start">
                                     <Link
                                         href="/home"
@@ -63,7 +63,7 @@ export default function Episodio({ dataEpisodio }: any) {
                                     {dataEpisodio[0].title}
                                 </div>
                             </div>
-                            <div className="flex w-1/2 mx-auto ">
+                            <div className="flex lg:w-1/2 mx-auto px-4">
                                 <video
                                     controls
                                     src={`${

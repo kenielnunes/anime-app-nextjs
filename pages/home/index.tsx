@@ -89,7 +89,7 @@ const App = (props: any) => {
     const Content = () => {
         return (
             <div className="flex mx-auto flex-col">
-                <div className="flex justify-center py-20 text-4xl font-bold">
+                <div className="flex justify-center py-20 px-10 text-center text-4xl font-bold">
                     No momento são apenas os lançamentos, novidades em breve 👀
                 </div>
                 <div className="flex flex-wrap justify-center gap-3 pb-10">
