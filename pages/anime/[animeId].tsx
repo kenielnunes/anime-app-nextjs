@@ -47,6 +47,9 @@ export async function getStaticProps({ params }: any) {
 }
 
 export default function Post({ epsData, animeInfo }: any) {
+    console.log(epsData);
+    console.log(animeInfo);
+
     const [stream, setStream] = useState("");
     const [videoId, setVideoId] = useState("");
 
