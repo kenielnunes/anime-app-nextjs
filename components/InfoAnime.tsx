@@ -11,7 +11,7 @@ export default function InfoAnime({
     banner,
 }: any) {
     return (
-        <div className="flex justify-between items-center w-full py-32 ">
+        <div className="flex justify-between items-center w-full pb-20">
             <div className="w-full text-white flex flex-col gap-6">
                 <div className="text-4xl font-semibold">{title}</div>
                 <div className="flex gap-6">

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef, useState, useEffect } from "react";
@@ -10,13 +11,20 @@ import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
 import Head from "next/head";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
+// Default theme
+import "@splidejs/react-splide/css";
+
+// or other themes
+import "@splidejs/react-splide/css/skyblue";
+import "@splidejs/react-splide/css/sea-green";
+
+// or only core styles
+import "@splidejs/react-splide/css/core";
 
 const App = (props: any) => {
     const [animeData, setAnimeData] = useState<any>([]);
-    console.log("🚀 ~ file: index.tsx:12 ~ App ~ animeData", animeData);
-    const [stream, setStream] = useState("");
-    const [videoId, setVideoId] = useState("");
-    const urlImage = "https://cdn.appanimeplus.tk/img/";
     const [loading, setLoading] = useState(false);
 
     var requestOptions: any = {
@@ -25,21 +33,6 @@ const App = (props: any) => {
     };
 
     const [epsList, setEpsList] = useState([]);
-    console.log("🚀 ~ file: index.tsx:22 ~ App ~ epsList", epsList);
-
-    //   useEffect(() => {
-    //     animeData.map((anime: any) => {
-    //       fetch(
-    //         `https://appanimeplus.tk/play-api.php?cat_id=${anime.id}`,
-    //         requestOptions
-    //       )
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //           console.log(result);
-    //         })
-    //         .catch((error) => console.log("error", error));
-    //     });
-    //   }, []);
 
     useEffect(() => {
         fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
@@ -48,18 +41,14 @@ const App = (props: any) => {
             .catch((error) => console.log("error", error));
     }, []);
 
-    function getVideo(idVideo: any) {
-        fetch(`https://appanimeplus.tk/play-api.php?episodios=${idVideo}`)
-            .then((response) => response.json())
-            .then((result) => {
-                setStream(result[0].locationsd);
-            })
-            .catch((error) => console.log("error", error));
-    }
-
-    // useEffect(() => {
-    //     getIdVideo("485669");
-    // }, []);
+    // function getVideo(idVideo: any) {
+    //     fetch(`https://appanimeplus.tk/play-api.php?episodios=${idVideo}`)
+    //         .then((response) => response.json())
+    //         .then((result) => {
+    //             setStream(result[0].locationsd);
+    //         })
+    //         .catch((error) => console.log("error", error));
+    // }
 
     function getEpsList(idAnime: string) {
         var requestOptions: any = {
@@ -86,13 +75,109 @@ const App = (props: any) => {
     //     }, 2500);
     // }, []);
 
+    const urlImage = "https://cdn.appanimeplus.tk/img/";
+
     const Content = () => {
+        const [searchAnime, setSearchAnime] = useState("");
+        const [animeEnabledSearch, setAnimeEnabledSearch] = useState([]);
+        const [loading, setLoading] = useState(false);
+
+        const [listIdAnimes, setListIdAnime] = useState<any>([]);
+
+        const [listEps, setListEps] = useState<any>([]);
+
+        const [animeDataForId, setAnimeDataForId] = useState<any>([]);
+
+        useEffect(() => {
+            fetch(`https://appanimeplus.tk/play-api.php?search=${searchAnime}`)
+                .then((response) => response.json())
+                .then((result) => {
+                    setAnimeEnabledSearch(result);
+                })
+                .catch((error) => console.log("error", error));
+        }, [searchAnime]);
+
         return (
-            <div className="flex mx-auto flex-col">
+            <div className="flex mx-auto flex-col container">
                 <div className="flex justify-center py-20 px-10 text-center text-4xl font-bold">
-                    No momento são apenas os lançamentos, novidades em breve 👀
+                    Pesquise pelo anime que quiser :D
                 </div>
-                <div className="flex flex-wrap justify-center gap-3 pb-10">
+                <div className="py-10">
+                    <input
+                        onChange={(e) => setSearchAnime(e.target.value)}
+                        className="p-4 w-1/2 flex mx-auto border-2 rounded-xl"
+                        type="text"
+                        placeholder="pesquisar"
+                    />
+                </div>
+
+                <div>
+                    {searchAnime.length <= 0 ? (
+                        <div className="w-1/2 flex mx-auto pb-10 rounded-xl"></div>
+                    ) : (
+                        <div className="w-1/2 flex mx-auto pb-10 rounded-xl">
+                            <div className="h-[300px] flex-wrap flex w-full overflow-y-auto">
+                                {animeEnabledSearch == null
+                                    ? "Nenhum anime encontrado"
+                                    : animeEnabledSearch
+                                          .slice(0, 20)
+                                          .map((dataSearch: any) => {
+                                              return (
+                                                  <a
+                                                      href={`anime/${dataSearch.id}`}
+                                                      //             style={{
+                                                      //                 backgroundImage: `url(
+                                                      //     ${urlImage}${dataSearch.category_image}
+                                                      // )`,
+                                                      //                 backgroundRepeat: "no-repeat",
+                                                      //                 backgroundPosition: "center",
+                                                      //                 backgroundSize: "cover",
+                                                      //             }}
+                                                      key={dataSearch.id}
+                                                      id={dataSearch.id}
+                                                      className="w-full flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
+                                                  >
+                                                      <div className="flex gap-4 w-full bg-black bg-opacity-60 ">
+                                                          <div>
+                                                              <img
+                                                                  width="150px"
+                                                                  height="200px"
+                                                                  src={`${urlImage}${dataSearch.category_image}`}
+                                                                  alt="banner anime"
+                                                              />
+                                                          </div>
+                                                          <div className="font-semibold text-white p-2 max-h-full ">
+                                                              {
+                                                                  dataSearch.category_name
+                                                              }
+                                                          </div>
+                                                      </div>
+                                                  </a>
+                                              );
+                                          })}
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div className="px-12 text-2xl font-bold">
+                    Episódios recentes
+                </div>
+                <Splide
+                    options={{
+                        type: "loop",
+                        drag: "free",
+                        focus: "center",
+                        perPage: 6,
+                        autoScroll: {
+                            speed: 0.2,
+                            pauseOnHover: false,
+                            pauseOnFocus: false,
+                        },
+                        autoStart: true,
+                    }}
+                    extensions={{ AutoScroll }}
+                    aria-label="My Anime Images"
+                >
                     {loading
                         ? animeData.map((item: any) => {
                               return (
@@ -109,29 +194,31 @@ const App = (props: any) => {
                           })
                         : animeData.map((data: any) => {
                               return (
-                                  <a
-                                      href={`episodio/${data.video_id}`}
-                                      style={{
-                                          backgroundImage: `url(
+                                  <SplideSlide>
+                                      <a
+                                          href={`episodio/${data.video_id}`}
+                                          style={{
+                                              backgroundImage: `url(
                                           ${urlImage}${data.category_image}
                                       )`,
-                                          backgroundRepeat: "no-repeat",
-                                          backgroundPosition: "center",
-                                          backgroundSize: "cover",
-                                      }}
-                                      key={data.id}
-                                      id={data.id}
-                                      className="h-[300px] w-[250px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
-                                  >
-                                      <div className="h-[25%] w-full bg-black bg-opacity-60 ">
-                                          <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
-                                              {data.title}
+                                              backgroundRepeat: "no-repeat",
+                                              backgroundPosition: "center",
+                                              backgroundSize: "cover",
+                                          }}
+                                          key={data.id}
+                                          id={data.id}
+                                          className="h-[300px] w-[220px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
+                                      >
+                                          <div className="h-[35%] w-full bg-black bg-opacity-60 ">
+                                              <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
+                                                  {data.title}
+                                              </div>
                                           </div>
-                                      </div>
-                                  </a>
+                                      </a>
+                                  </SplideSlide>
                               );
                           })}
-                </div>
+                </Splide>
             </div>
         );
     };

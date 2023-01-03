@@ -7,6 +7,12 @@ interface Props {
 export default function AnimesListOverflow({ epsList }: Props) {
     const [filter, setFilter] = React.useState([]);
     const [search, setSearch] = React.useState("");
+    console.log(
+        "🚀 ~ file: AnimesListOverflow.tsx:10 ~ AnimesListOverflow ~ search",
+        search
+    );
+
+    const epsFiltered = epsList.includes(search);
 
     return (
         <div className="w-full p-10 rounded-md bg-[#2D2C33]">
@@ -18,7 +24,7 @@ export default function AnimesListOverflow({ epsList }: Props) {
                     placeholder="Pesquisar..."
                 />
             </div>
-            {}
+            {epsFiltered}
             <div className="max-h-[500px] flex flex-col-reverse overflow-y-auto divide-y-2">
                 {epsList}
             </div>
