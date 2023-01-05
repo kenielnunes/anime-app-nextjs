@@ -164,7 +164,7 @@ export default function Post({ epsData, animeInfo }: any) {
                     filteredEps.length <= 3 ? "h-full" : "a"
                 }`}
             >
-                <div className="container mx-auto flex flex-col px-24">
+                <div className="container mx-auto flex flex-col px-10 lg:px-24">
                     <div className="w-full pb-20">
                         <div className="flex justify-start items-center py-20">
                             <Link

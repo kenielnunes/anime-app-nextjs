@@ -30,10 +30,10 @@ export default function InfoAnime({
                     {/* <div>{githubIcon}</div> */}
                 </div>
                 <div className="max-h-52 overflow-y-auto">{sinopse}</div>
-                <div className="flex gap-4 text-sm">{categories}</div>
+                <div className="flex gap-4 text-sm flex-wrap">{categories}</div>
                 <div>Episódios: {numberEps}</div>
             </div>
-            <div className="text-white w-full flex justify-end">
+            <div className="text-white hidden w-full lg:flex justify-end">
                 <img className="w-[200px]" src={banner} alt="banner" />
             </div>
         </div>

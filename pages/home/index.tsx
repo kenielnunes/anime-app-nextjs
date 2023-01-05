@@ -76,7 +76,7 @@ const App = (props: any) => {
 
         setTimeout(() => {
             setLoading(false);
-        }, 2500);
+        }, 1500);
     }, []);
 
     const urlImage = "https://cdn.appanimeplus.tk/img/";
@@ -120,7 +120,7 @@ const App = (props: any) => {
                     {searchAnime.length <= 0 ? (
                         <div className="w-1/2 flex mx-auto pb-10 rounded-xl"></div>
                     ) : (
-                        <div className="w-1/2 flex mx-auto pb-10 rounded-xl">
+                        <div className="lg:w-1/2 flex mx-auto pb-10 rounded-xl">
                             <div className="h-[300px] flex-wrap flex w-full overflow-y-auto">
                                 {animeEnabledSearch == null
                                     ? "Nenhum anime encontrado"
@@ -145,8 +145,7 @@ const App = (props: any) => {
                                                       <div className="flex gap-4 w-full bg-black bg-opacity-60 ">
                                                           <div>
                                                               <img
-                                                                  width="150px"
-                                                                  height="200px"
+                                                                  className="w-[150px] h-[200px]"
                                                                   src={`${urlImage}${dataSearch.category_image}`}
                                                                   alt="banner anime"
                                                               />
@@ -170,6 +169,7 @@ const App = (props: any) => {
                         <Skeleton
                             sx={{ bgcolor: "grey.300" }}
                             variant="rectangular"
+                            width="250px"
                             height="30px"
                         />
                         <Skeleton
@@ -181,6 +181,7 @@ const App = (props: any) => {
                         <Skeleton
                             sx={{ bgcolor: "grey.300" }}
                             variant="rectangular"
+                            width="250px"
                             height="30px"
                         />
                         <Skeleton
@@ -199,14 +200,18 @@ const App = (props: any) => {
                             options={{
                                 type: "loop",
                                 drag: "free",
-                                focus: "center",
+                                focus: 0,
                                 perPage: 6,
+                                gap: 8,
                                 autoScroll: {
                                     speed: 0.2,
                                     pauseOnHover: false,
                                     pauseOnFocus: false,
                                 },
+                                pagination: false,
                                 autoStart: true,
+                                autoWidth: true,
+                                autoHeigth: true,
                             }}
                             extensions={{ AutoScroll }}
                             aria-label="Anime Images"
@@ -245,14 +250,18 @@ const App = (props: any) => {
                             options={{
                                 type: "loop",
                                 drag: "free",
-                                focus: "center",
+                                focus: 0,
                                 perPage: 6,
+                                gap: 8,
                                 autoScroll: {
                                     speed: 0.2,
                                     pauseOnHover: false,
                                     pauseOnFocus: false,
                                 },
                                 autoStart: true,
+                                autoWidth: true,
+                                autoHeigth: true,
+                                pagination: false,
                             }}
                             extensions={{ AutoScroll }}
                             aria-label="My Anime Images"
