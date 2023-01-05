@@ -5,12 +5,16 @@ type Modal = {
     idModal: string;
     closeStream: any;
     epTitle: string;
+    setBeforeEp: any;
+    setNextEp: any;
 };
 export default function ModalEps({
     srcVideo,
     idModal,
     closeStream,
     epTitle,
+    setNextEp,
+    setBeforeEp,
 }: Modal) {
     return (
         <div>
@@ -35,8 +39,43 @@ export default function ModalEps({
                                     data-bs-dismiss="modal"
                                     aria-label="Close"
                                 ></button>
-                                <div className="text-black flex justify-center items-center font-bold text-2xl">
-                                    {epTitle}
+                                <div className="text-black flex gap-10 justify-center items-center font-bold ">
+                                    {/* <div>
+                                        <button
+                                            onClick={setBeforeEp}
+                                            className="beforeButton flex rotate-180"
+                                        >
+                                            <span className="rotate-180">
+                                                Anterior
+                                            </span>
+                                            <svg
+                                                viewBox="0 0 13 10"
+                                                height="10px"
+                                                width="15px"
+                                                className=""
+                                            >
+                                                <path d="M1,5 L11,5"></path>
+                                                <polyline points="8 1 12 5 8 9"></polyline>
+                                            </svg>
+                                        </button>
+                                    </div> */}
+                                    <div className="text-2xl ">{epTitle}</div>
+                                    {/* <div>
+                                        <button
+                                            onClick={setNextEp}
+                                            className="nextButton flex"
+                                        >
+                                            <span>Próximo</span>
+                                            <svg
+                                                viewBox="0 0 13 10"
+                                                height="10px"
+                                                width="15px"
+                                            >
+                                                <path d="M1,5 L11,5"></path>
+                                                <polyline points="8 1 12 5 8 9"></polyline>
+                                            </svg>
+                                        </button>
+                                    </div> */}
                                 </div>
                                 <div
                                     className="text-xl font-medium leading-normal text-gray-800"

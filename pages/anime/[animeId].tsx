@@ -7,7 +7,22 @@ import InfoAnime from "../../components/InfoAnime";
 import ModalEps from "../../components/ModalEps";
 
 export async function getStaticPaths() {
-    const request = await fetch(`https://appanimeplus.tk/play-api.php?search`);
+    // CORRETO COM TODOS ANIMES
+    // const request = await fetch(`https://appanimeplus.tk/play-api.php?search`);
+
+    // const data = await request.json();
+
+    // const paths = data.map((anime: any) => {
+    //     const urlPaths = {
+    //         params: { animeId: anime?.id },
+    //     };
+
+    //     return urlPaths;
+    // });
+
+    const request = await fetch(
+        `https://appanimeplus.tk/play-api.php?populares`
+    );
 
     const data = await request.json();
 
@@ -91,11 +106,20 @@ export default function Post({ epsData, animeInfo }: any) {
         }
     );
 
+    const [idVideoAtual, setVideoIdAtual] = useState("");
+    // console.log(
+    //     "🚀 ~ file: [animeId].tsx:95 ~ Post ~ idVideoAtual",
+    //     idVideoAtual
+    // );
+
     function getVideo(idVideo: any) {
         fetch(`https://appanimeplus.tk/play-api.php?episodios=${idVideo}`)
             .then((response) => response.json())
             .then((result) => {
-                setStream(result[0].locationsd);
+                setVideoIdAtual(idVideo);
+                result[0].locationsd == ""
+                    ? setStream(result[0].location)
+                    : setStream(result[0].locationsd);
             })
             .catch((error) => console.log("error", error));
     }
@@ -109,6 +133,27 @@ export default function Post({ epsData, animeInfo }: any) {
         );
     }, [search]);
 
+    const [dataSelectedEp, setDataSelectedEp] = useState<any>([]);
+
+    function setNextEp() {
+        fetch(
+            `https://appanimeplus.tk/play-api.php?episodios=${idVideoAtual}&catid=${animeInfo[0].id}&next`
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                // console.log(
+                //     "🚀 ~ file: [animeId].tsx:128 ~ .then ~ result",
+                //     result
+                // );
+                setDataSelectedEp(result[0]);
+                setVideoIdAtual(result[0].video_id);
+                result[0].locationsd == ""
+                    ? setStream(result[0].location)
+                    : setStream(result[0].locationsd);
+            })
+            .catch((error) => console.log("error", error));
+    }
+
     return (
         <>
             <Head>
@@ -116,7 +161,7 @@ export default function Post({ epsData, animeInfo }: any) {
             </Head>
             <div
                 className={`bg-[#131219] text-white ${
-                    filteredEps.length >= 10 ? "h-full" : "h-screen"
+                    filteredEps.length <= 3 ? "h-full" : "a"
                 }`}
             >
                 <div className="container mx-auto flex flex-col px-24">
@@ -190,6 +235,10 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           setStream("")
                                                       }
                                                       epTitle={episodio.title}
+                                                      setBeforeEp={""}
+                                                      setNextEp={() =>
+                                                          setNextEp()
+                                                      }
                                                   />
                                               </>
                                           );
@@ -235,7 +284,44 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           setStream("")
                                                       }
                                                       epTitle={episodio.title}
+                                                      setBeforeEp={undefined}
+                                                      setNextEp={undefined}
                                                   />
+                                                  {/* {dataSelectedEp != null ? (
+                                                      <ModalEps
+                                                          srcVideo={stream}
+                                                          idModal={convertStringToSlug(
+                                                              dataSelectedEp.title
+                                                          )}
+                                                          closeStream={() =>
+                                                              setStream("")
+                                                          }
+                                                          epTitle={
+                                                              dataSelectedEp.title
+                                                          }
+                                                          setBeforeEp={
+                                                              undefined
+                                                          }
+                                                          setNextEp={undefined}
+                                                      />
+                                                  ) : (
+                                                      <ModalEps
+                                                          srcVideo={stream}
+                                                          idModal={convertStringToSlug(
+                                                              episodio.title
+                                                          )}
+                                                          closeStream={() =>
+                                                              setStream("")
+                                                          }
+                                                          epTitle={
+                                                              episodio.title
+                                                          }
+                                                          setBeforeEp={
+                                                              undefined
+                                                          }
+                                                          setNextEp={undefined}
+                                                      />
+                                                  )} */}
                                               </>
                                           );
                                       })}

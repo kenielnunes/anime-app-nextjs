@@ -24,7 +24,13 @@ import "@splidejs/react-splide/css/sea-green";
 import "@splidejs/react-splide/css/core";
 
 const App = (props: any) => {
-    const [animeData, setAnimeData] = useState<any>([]);
+    const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
+    const [popularAnimeData, setPopularAnimeData] = useState<any>([]);
+    console.log(
+        "🚀 ~ file: index.tsx:29 ~ App ~ popularAnimeData",
+        popularAnimeData
+    );
+
     const [loading, setLoading] = useState(false);
 
     var requestOptions: any = {
@@ -37,18 +43,16 @@ const App = (props: any) => {
     useEffect(() => {
         fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
             .then((response) => response.json())
-            .then((result) => setAnimeData(result))
+            .then((result) => setRecentAnimeData(result))
             .catch((error) => console.log("error", error));
     }, []);
 
-    // function getVideo(idVideo: any) {
-    //     fetch(`https://appanimeplus.tk/play-api.php?episodios=${idVideo}`)
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //             setStream(result[0].locationsd);
-    //         })
-    //         .catch((error) => console.log("error", error));
-    // }
+    useEffect(() => {
+        fetch("https://appanimeplus.tk/play-api.php?populares", requestOptions)
+            .then((response) => response.json())
+            .then((result) => setPopularAnimeData(result))
+            .catch((error) => console.log("error", error));
+    }, []);
 
     function getEpsList(idAnime: string) {
         var requestOptions: any = {
@@ -67,20 +71,19 @@ const App = (props: any) => {
             .catch((error) => console.log("error", error));
     }
 
-    // useEffect(() => {
-    //     setLoading(true);
+    useEffect(() => {
+        setLoading(true);
 
-    //     setTimeout(() => {
-    //         setLoading(false);
-    //     }, 2500);
-    // }, []);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2500);
+    }, []);
 
     const urlImage = "https://cdn.appanimeplus.tk/img/";
 
     const Content = () => {
         const [searchAnime, setSearchAnime] = useState("");
         const [animeEnabledSearch, setAnimeEnabledSearch] = useState([]);
-        const [loading, setLoading] = useState(false);
 
         const [listIdAnimes, setListIdAnime] = useState<any>([]);
 
@@ -99,8 +102,10 @@ const App = (props: any) => {
 
         return (
             <div className="flex mx-auto flex-col container">
-                <div className="flex justify-center py-20 px-10 text-center text-4xl font-bold">
-                    Pesquise pelo anime que quiser :D
+                <div className="flex justify-center py-20 text-center text-4xl font-bold">
+                    Foram acrescentados os animes populares, o filtro abaixo
+                    funciona, porém como são muitos animes vou ter que ver uma
+                    plataforma melhor pra subir e funcionar todos :D
                 </div>
                 <div className="py-10">
                     <input
@@ -159,66 +164,128 @@ const App = (props: any) => {
                         </div>
                     )}
                 </div>
-                <div className="px-12 text-2xl font-bold">
-                    Episódios recentes
-                </div>
-                <Splide
-                    options={{
-                        type: "loop",
-                        drag: "free",
-                        focus: "center",
-                        perPage: 6,
-                        autoScroll: {
-                            speed: 0.2,
-                            pauseOnHover: false,
-                            pauseOnFocus: false,
-                        },
-                        autoStart: true,
-                    }}
-                    extensions={{ AutoScroll }}
-                    aria-label="My Anime Images"
-                >
-                    {loading
-                        ? animeData.map((item: any) => {
-                              return (
-                                  <>
-                                      <Skeleton
-                                          variant="rectangular"
-                                          width="150px"
-                                          height="190px"
-                                      >
-                                          <div />
-                                      </Skeleton>
-                                  </>
-                              );
-                          })
-                        : animeData.map((data: any) => {
-                              return (
-                                  <SplideSlide>
-                                      <a
-                                          href={`episodio/${data.video_id}`}
-                                          style={{
-                                              backgroundImage: `url(
+
+                {loading ? (
+                    <div className="flex flex-col gap-10">
+                        <Skeleton
+                            sx={{ bgcolor: "grey.300" }}
+                            variant="rectangular"
+                            height="30px"
+                        />
+                        <Skeleton
+                            sx={{ bgcolor: "grey.300" }}
+                            variant="rectangular"
+                            height="300px"
+                        />
+
+                        <Skeleton
+                            sx={{ bgcolor: "grey.300" }}
+                            variant="rectangular"
+                            height="30px"
+                        />
+                        <Skeleton
+                            sx={{ bgcolor: "grey.300" }}
+                            variant="rectangular"
+                            height="300px"
+                        />
+                    </div>
+                ) : (
+                    <>
+                        <div className="px-12 text-2xl font-bold">
+                            Populares
+                        </div>
+
+                        <Splide
+                            options={{
+                                type: "loop",
+                                drag: "free",
+                                focus: "center",
+                                perPage: 6,
+                                autoScroll: {
+                                    speed: 0.2,
+                                    pauseOnHover: false,
+                                    pauseOnFocus: false,
+                                },
+                                autoStart: true,
+                            }}
+                            extensions={{ AutoScroll }}
+                            aria-label="Anime Images"
+                        >
+                            {popularAnimeData.map((popularData: any) => {
+                                return (
+                                    <SplideSlide>
+                                        <a
+                                            href={`anime/${popularData.id}`}
+                                            style={{
+                                                backgroundImage: `url(
+                                          ${urlImage}${popularData.category_image}
+                                      )`,
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundPosition: "center",
+                                                backgroundSize: "cover",
+                                            }}
+                                            key={popularData.id}
+                                            id={popularData.id}
+                                            className="h-[300px] w-[220px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
+                                        >
+                                            <div className="h-[35%] w-full bg-black bg-opacity-60 ">
+                                                <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
+                                                    {popularData.category_name}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </SplideSlide>
+                                );
+                            })}
+                        </Splide>
+                        <div className="px-12 text-2xl font-bold">
+                            Episódios recentes
+                        </div>
+                        <Splide
+                            options={{
+                                type: "loop",
+                                drag: "free",
+                                focus: "center",
+                                perPage: 6,
+                                autoScroll: {
+                                    speed: 0.2,
+                                    pauseOnHover: false,
+                                    pauseOnFocus: false,
+                                },
+                                autoStart: true,
+                            }}
+                            extensions={{ AutoScroll }}
+                            aria-label="My Anime Images"
+                        >
+                            {recentAnimeData.map((data: any) => {
+                                return (
+                                    <SplideSlide>
+                                        <a
+                                            href={`episodio/${data.video_id}`}
+                                            style={{
+                                                backgroundImage: `url(
                                           ${urlImage}${data.category_image}
                                       )`,
-                                              backgroundRepeat: "no-repeat",
-                                              backgroundPosition: "center",
-                                              backgroundSize: "cover",
-                                          }}
-                                          key={data.id}
-                                          id={data.id}
-                                          className="h-[300px] w-[220px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
-                                      >
-                                          <div className="h-[35%] w-full bg-black bg-opacity-60 ">
-                                              <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
-                                                  {data.title}
-                                              </div>
-                                          </div>
-                                      </a>
-                                  </SplideSlide>
-                              );
-                          })}
-                </Splide>
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundPosition: "center",
+                                                backgroundSize: "cover",
+                                            }}
+                                            key={data.id}
+                                            id={data.id}
+                                            className="h-[300px] w-[220px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
+                                        >
+                                            <div className="h-[35%] w-full bg-black bg-opacity-60 ">
+                                                <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
+                                                    {data.title}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </SplideSlide>
+                                );
+                            })}
+                        </Splide>
+                    </>
+                )}
             </div>
         );
     };
