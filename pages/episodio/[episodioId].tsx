@@ -13,7 +13,7 @@ export async function getStaticProps({ params }: any) {
         props: {
             dataEpisodio: dataEp,
         },
-        revalidate: 60,
+        revalidate: 1,
     };
 }
 export async function getStaticPaths() {
@@ -39,7 +39,7 @@ export async function getStaticPaths() {
 
     return {
         paths: [...paths],
-        fallback: true,
+        fallback: "blocking",
     };
 }
 
