@@ -29,7 +29,7 @@ export default function ModalEps({
                     aria-modal="true"
                     role="dialog"
                 >
-                    <div className="modal-dialog modal-xl modal-dialog-centered relative w-2/3">
+                    <div className="modal-dialog modal-xl modal-dialog-centered relative w-full md:w-2/3 ">
                         <div className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
                             <div className="modal-header flex flex-col flex-shrink-0 gap-4 justify-between p-4 border-b border-gray-200 rounded-t-md">
                                 <button
