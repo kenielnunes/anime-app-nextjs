@@ -24,10 +24,11 @@ export default function ModalEps({
                 <div
                     className="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
                     id={idModal}
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
                     tabIndex={-1}
-                    aria-labelledby="exampleModalCenterTitle"
-                    aria-modal="true"
-                    role="dialog"
+                    aria-labelledby="staticBackdropLabel"
+                    aria-hidden="true"
                 >
                     <div className="modal-dialog modal-xl modal-dialog-centered relative w-full md:w-2/3 ">
                         <div className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
