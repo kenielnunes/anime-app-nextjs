@@ -1,10 +1,10 @@
 export function PrimaryButton() {
     return (
         <>
-            <button className="button">
-                <span className="button_lg">
-                    <span className="button_sl"></span>
-                    <span className="button_text">Download Now</span>
+            <button className="buttonPrimary">
+                <span className="buttonPrimary_lg">
+                    <span className="buttonPrimary_sl"></span>
+                    <span className="buttonPrimary_text">Assistir</span>
                 </span>
             </button>
         </>

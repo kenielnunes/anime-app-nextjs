@@ -17,7 +17,7 @@ export default createGlobalStyle`
         height: 100%;
 }
 
-.button {
+.buttonPrimary {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
@@ -30,12 +30,12 @@ export default createGlobalStyle`
   margin-bottom: 20px;
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 11px;
   transition: all .15s ease;
 }
 
-.button::before,
-.button::after {
+.buttonPrimary::before,
+.buttonPrimary::after {
   content: '';
   display: block;
   position: absolute;
@@ -46,36 +46,36 @@ export default createGlobalStyle`
   transition: all .15s ease;
 }
 
-.button::before {
+.buttonPrimary::before {
   top: 0;
   border-bottom-width: 0;
 }
 
-.button::after {
+.buttonPrimary::after {
   bottom: 0;
   border-top-width: 0;
 }
 
-.button:active,
-.button:focus {
+.buttonPrimary:active,
+.buttonPrimary:focus {
   outline: none;
 }
 
-.button:active::before,
-.button:active::after {
+.buttonPrimary:active::before,
+.buttonPrimary:active::after {
   right: 3px;
   left: 3px;
 }
 
-.button:active::before {
+.buttonPrimary:active::before {
   top: 3px;
 }
 
-.button:active::after {
+.buttonPrimary:active::after {
   bottom: 3px;
 }
 
-.button_lg {
+.buttonPrimary_lg {
   position: relative;
   display: block;
   padding: 10px 20px;
@@ -85,7 +85,7 @@ export default createGlobalStyle`
   box-shadow: inset 0px 0px 0px 1px transparent;
 }
 
-.button_lg::before {
+.buttonPrimary_lg::before {
   content: '';
   display: block;
   position: absolute;
@@ -96,7 +96,7 @@ export default createGlobalStyle`
   background-color: #0f1923;
 }
 
-.button_lg::after {
+.buttonPrimary_lg::after {
   content: '';
   display: block;
   position: absolute;
@@ -108,7 +108,7 @@ export default createGlobalStyle`
   transition: all .2s ease;
 }
 
-.button_sl {
+.buttonPrimary_sl {
   display: block;
   position: absolute;
   top: 0;
@@ -120,19 +120,19 @@ export default createGlobalStyle`
   transition: all .2s ease;
 }
 
-.button_text {
+.buttonPrimary_text {
   position: relative;
 }
 
-.button:hover {
+.buttonPrimary:hover {
   color: #0f1923;
 }
 
-.button:hover .button_sl {
+.buttonPrimary:hover .buttonPrimary_sl {
   width: calc(100% + 15px);
 }
 
-.button:hover .button_lg::after {
+.buttonPrimary:hover .buttonPrimary_lg::after {
   background-color: #fff;
 }
 
@@ -285,41 +285,35 @@ export default createGlobalStyle`
  transform: scale(0.95);
 }
 .boxRecentAnimes {
-  width: 210px;
+  width: 100%;
   height: 254px;
   border-radius: 4px;
   background: #212121;
   display: flex;
-  gap: 5px;
-  padding: .4em;
 }
 
 .boxRecentAnimes p {
   height: 100%;
   flex: 1;
   overflow: hidden;
-  cursor: pointer;
+  /* cursor: pointer; */
   border-radius: 2px;
   transition: all .5s;
   background: #212121;
-  border: 1px solid #ff5a91;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .boxRecentAnimes p:hover {
-  flex: 4;
+  flex: 2;
 }
 
 .boxRecentAnimes p span {
   min-width: 14em;
-  padding: .5em;
   text-align: center;
-
   transition: all .5s;
-  text-transform: uppercase;
-  color: #ff568e;
+  /* color: #ff568e; */
   letter-spacing: .1em;
 }
 

@@ -1,9 +1,9 @@
-export function BoxRecentAnime({ text, link }) {
-    return (
-        <div className="boxRecentAnimes">
-            <p>
-                <span>{text}</span>
-            </p>
-        </div>
-    );
+import React from "react";
+
+interface PropsBoxRecentAnime {
+    children: React.ReactNode;
+}
+
+export function BoxRecentAnime({ children }: PropsBoxRecentAnime) {
+    return <div className="boxRecentAnimes flex w-screen">{children}</div>;
 }

@@ -18,6 +18,7 @@ import "@splidejs/react-splide/css/sea-green";
 import "@splidejs/react-splide/css/core";
 import { PrimaryButton } from "../../components/buttons/PrimaryButton";
 import { BoxRecentAnime } from "../../components/BoxRecentAnimes";
+import Link from "next/link";
 
 const App = (props: any) => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
@@ -106,16 +107,44 @@ const App = (props: any) => {
         }, [searchAnime]);
 
         return (
-            <div className="flex mx-auto flex-col ">
-                <div className="flex">
-                    {recentAnimeData.slice(0, 8).map((data: any) => {
-                        return (
-                            <>
-                                <BoxRecentAnime
-                                    text={data.title}
-                                    link={undefined}
-                                />
-                                {/* <div
+            <div className="flex mx-auto flex-col">
+                <div className="flex  w-screen">
+                    <BoxRecentAnime>
+                        {recentAnimeData.slice(0, 18).map((data: any) => {
+                            return (
+                                <>
+                                    <p
+                                        className="group h-full"
+                                        style={{
+                                            backgroundImage: `url(
+                                          ${urlImage}${data.category_image}
+                                      )`,
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundPosition: "center",
+                                            backgroundSize: "cover",
+                                        }}
+                                    >
+                                        <span className="h-full duration-500">
+                                            {/* <img
+                                                className="w-full "
+                                                src={`${urlImage}${data.category_image}`}
+                                                alt=""
+                                            /> */}
+                                            <div className="hidden justify-end  bg-black w-full h-full bg-opacity-50 group-hover:flex-col group-hover:flex duration-500 p-4">
+                                                <div className="cursor-default">
+                                                    {data.title}
+                                                </div>
+                                                <div>
+                                                    <Link
+                                                        href={`episodio/${data.video_id}`}
+                                                    >
+                                                        <PrimaryButton />
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </p>
+                                    {/* <div
                                     // href={`episodio/${data.video_id}`}
                                     style={{
                                         backgroundImage: `url(
@@ -135,12 +164,11 @@ const App = (props: any) => {
                                         </div>
                                     </div>
                                 </div> */}
-                            </>
-                        );
-                    })}
+                                </>
+                            );
+                        })}
+                    </BoxRecentAnime>
                 </div>
-
-                <PrimaryButton />
 
                 <div className="py-10">
                     <input
