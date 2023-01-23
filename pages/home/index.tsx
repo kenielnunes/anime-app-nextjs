@@ -173,7 +173,7 @@ const App = (props: any) => {
                 <div className="py-10">
                     <input
                         onChange={(e) => setSearchAnime(e.target.value)}
-                        className="p-4 w-1/2 flex mx-auto border-2 rounded-xl"
+                        className="p-4 w-1/2 flex mx-auto border-2 text-black rounded-xl"
                         type="text"
                         placeholder="pesquisar"
                     />
