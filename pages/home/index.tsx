@@ -3,12 +3,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef, useState, useEffect } from "react";
 
-// import videojs from "video.js"; // version 7
-// import "@videojs/http-streaming";
-// import "video.js/dist/video-js.css";
-import ModalEps from "../../components/ModalEps";
-import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
 import Head from "next/head";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
@@ -22,10 +16,46 @@ import "@splidejs/react-splide/css/sea-green";
 
 // or only core styles
 import "@splidejs/react-splide/css/core";
+import { PrimaryButton } from "../../components/buttons/PrimaryButton";
+import { BoxRecentAnime } from "../../components/BoxRecentAnimes";
 
 const App = (props: any) => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
     const [popularAnimeData, setPopularAnimeData] = useState<any>([]);
+
+    const config = {
+        apiKey: "AIzaSyBj-ao91n7by0dYlZR-RAMMu5DdZJXRkUo",
+        searchEngineId: "64c5cf84c3e914f5b",
+    };
+
+    const query = `https://www.googleapis.com/customsearch/v1?key=${
+        config.apiKey
+    }&cx=${
+        config.searchEngineId
+    }&q=${"demon slayer"}&searchType=image&imgSize=huge`;
+
+    const animeLoaded =
+        popularAnimeData[Math.floor(Math.random() * popularAnimeData.length)];
+
+    // useEffect(() => {
+    //     var requestOptions: any = {
+    //         method: "GET",
+    //         redirect: "follow",
+    //     };
+
+    //     fetch(
+    //         `https://www.googleapis.com/customsearch/v1?key=${config.apiKey}&cx=${config.searchEngineId}&q=${animeLoaded?.category_name}banner&searchType=image&imgSize=huge&num=2&imgType=photo`,
+    //         requestOptions
+    //     )
+    //         .then((response) => response.json())
+    //         .then((result) => {
+    //             console.log(result);
+
+    //             setBannerDataImage(result.items.map((data: any) => data.link));
+    //         })
+    //         .catch((error) => console.log("error", error));
+    // }, [popularAnimeData]);
+
     console.log(
         "🚀 ~ file: index.tsx:29 ~ App ~ popularAnimeData",
         popularAnimeData
@@ -37,8 +67,6 @@ const App = (props: any) => {
         method: "GET",
         redirect: "follow",
     };
-
-    const [epsList, setEpsList] = useState([]);
 
     useEffect(() => {
         fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
@@ -54,23 +82,6 @@ const App = (props: any) => {
             .catch((error) => console.log("error", error));
     }, []);
 
-    function getEpsList(idAnime: string) {
-        var requestOptions: any = {
-            method: "GET",
-            redirect: "follow",
-        };
-
-        fetch(
-            `https://appanimeplus.tk/play-api.php?cat_id=${idAnime}`,
-            requestOptions
-        )
-            .then((response) => response.json())
-            .then((result) => {
-                setEpsList(result);
-            })
-            .catch((error) => console.log("error", error));
-    }
-
     useEffect(() => {
         setLoading(true);
 
@@ -85,12 +96,6 @@ const App = (props: any) => {
         const [searchAnime, setSearchAnime] = useState("");
         const [animeEnabledSearch, setAnimeEnabledSearch] = useState([]);
 
-        const [listIdAnimes, setListIdAnime] = useState<any>([]);
-
-        const [listEps, setListEps] = useState<any>([]);
-
-        const [animeDataForId, setAnimeDataForId] = useState<any>([]);
-
         useEffect(() => {
             fetch(`https://appanimeplus.tk/play-api.php?search=${searchAnime}`)
                 .then((response) => response.json())
@@ -101,12 +106,42 @@ const App = (props: any) => {
         }, [searchAnime]);
 
         return (
-            <div className="flex mx-auto flex-col container">
-                <div className="flex justify-center py-20 text-center text-4xl font-bold">
-                    Foram acrescentados os animes populares, o filtro abaixo
-                    funciona, porém como são muitos animes vou ter que ver uma
-                    plataforma melhor pra subir e funcionar todos :D
+            <div className="flex mx-auto flex-col ">
+                <div className="flex">
+                    {recentAnimeData.slice(0, 8).map((data: any) => {
+                        return (
+                            <>
+                                <BoxRecentAnime
+                                    text={data.title}
+                                    link={undefined}
+                                />
+                                {/* <div
+                                    // href={`episodio/${data.video_id}`}
+                                    style={{
+                                        backgroundImage: `url(
+                                          ${urlImage}${data.category_image}
+                                      )`,
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundPosition: "center",
+                                        backgroundSize: "cover",
+                                    }}
+                                    key={data.id}
+                                    id={data.id}
+                                    className="h-[300px] w-[15%] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300 group"
+                                >
+                                    <div className="h-[35%] w-full bg-black bg-opacity-60 hidden group-hover:flex ease-in-out duration-300 ">
+                                        <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
+                                            {data.title}
+                                        </div>
+                                    </div>
+                                </div> */}
+                            </>
+                        );
+                    })}
                 </div>
+
+                <PrimaryButton />
+
                 <div className="py-10">
                     <input
                         onChange={(e) => setSearchAnime(e.target.value)}
@@ -246,53 +281,6 @@ const App = (props: any) => {
                         <div className="px-12 text-2xl font-bold">
                             Episódios recentes
                         </div>
-                        <Splide
-                            options={{
-                                type: "loop",
-                                drag: "free",
-                                focus: 0,
-                                perPage: 6,
-                                gap: 8,
-                                autoScroll: {
-                                    speed: 0.2,
-                                    pauseOnHover: false,
-                                    pauseOnFocus: false,
-                                },
-                                autoStart: true,
-                                autoWidth: true,
-                                autoHeigth: true,
-                                pagination: false,
-                            }}
-                            extensions={{ AutoScroll }}
-                            aria-label="My Anime Images"
-                        >
-                            {recentAnimeData.map((data: any) => {
-                                return (
-                                    <SplideSlide>
-                                        <a
-                                            href={`episodio/${data.video_id}`}
-                                            style={{
-                                                backgroundImage: `url(
-                                          ${urlImage}${data.category_image}
-                                      )`,
-                                                backgroundRepeat: "no-repeat",
-                                                backgroundPosition: "center",
-                                                backgroundSize: "cover",
-                                            }}
-                                            key={data.id}
-                                            id={data.id}
-                                            className="h-[300px] w-[220px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
-                                        >
-                                            <div className="h-[35%] w-full bg-black bg-opacity-60 ">
-                                                <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
-                                                    {data.title}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </SplideSlide>
-                                );
-                            })}
-                        </Splide>
                     </>
                 )}
             </div>
