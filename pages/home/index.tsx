@@ -321,7 +321,7 @@ const App = (props: any) => {
             <Head>
                 <title>Anime App</title>
             </Head>
-            <Navbar />
+            {/* <Navbar /> */}
             <Content />
         </>
     );
