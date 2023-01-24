@@ -17,124 +17,98 @@ export default createGlobalStyle`
         height: 100%;
 }
 
-.buttonPrimary {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  border: none;
-  background: none;
-  color: #0f1923;
-  cursor: pointer;
-  position: relative;
-  padding: 8px;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 11px;
-  transition: all .15s ease;
+.primaryButton {
+ font-family: 'Ropa Sans', sans-serif;
+    /* font-family: 'Valorant', sans-serif; */
+ color: white;
+ cursor: pointer;
+ font-size: 13px;
+ font-weight: bold;
+ letter-spacing: 0.05rem;
+ border: 1px solid #0E1822;
+ padding: 0.8rem 2.1rem;
+ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 531.28 200'%3E%3Cdefs%3E%3Cstyle%3E .shape %7B fill: %23FF4655 /* fill: %230E1822; */ %7D %3C/style%3E%3C/defs%3E%3Cg id='Layer_2' data-name='Layer 2'%3E%3Cg id='Layer_1-2' data-name='Layer 1'%3E%3Cpolygon class='shape' points='415.81 200 0 200 115.47 0 531.28 0 415.81 200' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
+ background-color: #0E1822;
+ background-size: 200%;
+ background-position: 200%;
+ background-repeat: no-repeat;
+ transition: 0.3s ease-in-out;
+ transition-property: background-position, border, color;
+ position: relative;
+ z-index: 1;
 }
 
-.buttonPrimary::before,
-.buttonPrimary::after {
-  content: '';
-  display: block;
-  position: absolute;
-  right: 0;
-  left: 0;
-  height: calc(50% - 5px);
-  border: 1px solid #7D8082;
-  transition: all .15s ease;
+.primaryButton:hover {
+ border: 1px solid #FF4655;
+ color: white;
+ background-position: 40%;
 }
 
-.buttonPrimary::before {
-  top: 0;
-  border-bottom-width: 0;
+.primaryButton:before {
+ content: "";
+ position: absolute;
+ background-color: #0E1822;
+ width: 0.2rem;
+ height: 0.2rem;
+ top: -1px;
+ left: -1px;
+ transition: background-color 0.15s ease-in-out;
 }
 
-.buttonPrimary::after {
-  bottom: 0;
-  border-top-width: 0;
+.primaryButton:hover:before {
+ background-color: white;
 }
 
-.buttonPrimary:active,
-.buttonPrimary:focus {
-  outline: none;
+.primaryButton:hover:after {
+ background-color: white;
 }
 
-.buttonPrimary:active::before,
-.buttonPrimary:active::after {
-  right: 3px;
-  left: 3px;
+.primaryButton:after {
+ content: "";
+ position: absolute;
+ background-color: #FF4655;
+ width: 0.3rem;
+ height: 0.3rem;
+ bottom: -1px;
+ right: -1px;
+ transition: background-color 0.15s ease-in-out;
 }
 
-.buttonPrimary:active::before {
-  top: 3px;
+.button-borders {
+ position: relative;
+ width: fit-content;
+ height: fit-content;
 }
 
-.buttonPrimary:active::after {
-  bottom: 3px;
+.button-borders:before {
+ content: "";
+ position: absolute;
+ width: calc(100% + 0.5em);
+ height: 50%;
+ left: -0.3em;
+ top: -0.3em;
+ border: 1px solid #0E1822;
+ border-bottom: 0px;
+    /* opacity: 0.3; */
 }
 
-.buttonPrimary_lg {
-  position: relative;
-  display: block;
-  padding: 10px 20px;
-  color: #fff;
-  background-color: #0f1923;
-  overflow: hidden;
-  box-shadow: inset 0px 0px 0px 1px transparent;
+.button-borders:after {
+ content: "";
+ position: absolute;
+ width: calc(100% + 0.5em);
+ height: 50%;
+ left: -0.3em;
+ bottom: -0.3em;
+ border: 1px solid #0E1822;
+ border-top: 0px;
+    /* opacity: 0.3; */
+ z-index: 0;
 }
 
-.buttonPrimary_lg::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 2px;
-  height: 2px;
-  background-color: #0f1923;
+.shape {
+ fill: #0E1822;
 }
 
-.buttonPrimary_lg::after {
-  content: '';
-  display: block;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 4px;
-  height: 4px;
-  background-color: #0f1923;
-  transition: all .2s ease;
-}
-
-.buttonPrimary_sl {
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: -1px;
-  left: -8px;
-  width: 0;
-  background-color: #ff4655;
-  transform: skew(-15deg);
-  transition: all .2s ease;
-}
-
-.buttonPrimary_text {
-  position: relative;
-}
-
-.buttonPrimary:hover {
-  color: #0f1923;
-}
-
-.buttonPrimary:hover .buttonPrimary_sl {
-  width: calc(100% + 15px);
-}
-
-.buttonPrimary:hover .buttonPrimary_lg::after {
-  background-color: #fff;
-}
 
 
 .swiper-slide {

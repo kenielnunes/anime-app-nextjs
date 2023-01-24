@@ -130,11 +130,11 @@ const App = (props: any) => {
                                                 src={`${urlImage}${data.category_image}`}
                                                 alt=""
                                             /> */}
-                                            <div className="hidden justify-end  bg-black w-full h-full bg-opacity-50 group-hover:flex-col group-hover:flex duration-500 p-4">
+                                            <div className="hidden justify-end  bg-black w-full h-full bg-opacity-50 group-hover:flex-col gap-4 group-hover:flex duration-500 p-4">
                                                 <div className="cursor-default">
                                                     {data.title}
                                                 </div>
-                                                <div>
+                                                <div className="flex justify-center">
                                                     <Link
                                                         href={`episodio/${data.video_id}`}
                                                     >
