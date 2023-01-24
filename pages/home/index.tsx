@@ -19,6 +19,7 @@ import "@splidejs/react-splide/css/core";
 import { PrimaryButton } from "../../components/buttons/PrimaryButton";
 import { BoxRecentAnime } from "../../components/BoxRecentAnimes";
 import Link from "next/link";
+import Navbar from "../../components/Layout/Navbar";
 
 const App = (props: any) => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
@@ -320,6 +321,7 @@ const App = (props: any) => {
             <Head>
                 <title>Anime App</title>
             </Head>
+            <Navbar />
             <Content />
         </>
     );
