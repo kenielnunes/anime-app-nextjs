@@ -26,38 +26,19 @@ const App = (props: any) => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
     const [popularAnimeData, setPopularAnimeData] = useState<any>([]);
 
-    const config = {
-        apiKey: "AIzaSyBj-ao91n7by0dYlZR-RAMMu5DdZJXRkUo",
-        searchEngineId: "64c5cf84c3e914f5b",
-    };
+    // const config = {
+    //     apiKey: "AIzaSyBj-ao91n7by0dYlZR-RAMMu5DdZJXRkUo",
+    //     searchEngineId: "64c5cf84c3e914f5b",
+    // };
 
-    const query = `https://www.googleapis.com/customsearch/v1?key=${
-        config.apiKey
-    }&cx=${
-        config.searchEngineId
-    }&q=${"demon slayer"}&searchType=image&imgSize=huge`;
+    // const query = `https://www.googleapis.com/customsearch/v1?key=${
+    //     config.apiKey
+    // }&cx=${
+    //     config.searchEngineId
+    // }&q=${"demon slayer"}&searchType=image&imgSize=huge`;
 
-    const animeLoaded =
-        popularAnimeData[Math.floor(Math.random() * popularAnimeData.length)];
-
-    // useEffect(() => {
-    //     var requestOptions: any = {
-    //         method: "GET",
-    //         redirect: "follow",
-    //     };
-
-    //     fetch(
-    //         `https://www.googleapis.com/customsearch/v1?key=${config.apiKey}&cx=${config.searchEngineId}&q=${animeLoaded?.category_name}banner&searchType=image&imgSize=huge&num=2&imgType=photo`,
-    //         requestOptions
-    //     )
-    //         .then((response) => response.json())
-    //         .then((result) => {
-    //             console.log(result);
-
-    //             setBannerDataImage(result.items.map((data: any) => data.link));
-    //         })
-    //         .catch((error) => console.log("error", error));
-    // }, [popularAnimeData]);
+    // const animeLoaded =
+    //     popularAnimeData[Math.floor(Math.random() * popularAnimeData.length)];
 
     console.log(
         "🚀 ~ file: index.tsx:29 ~ App ~ popularAnimeData",
@@ -93,7 +74,50 @@ const App = (props: any) => {
         }, 1500);
     }, []);
 
+    function toTitleCase(phrase: string) {
+        return phrase
+            .toLowerCase()
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    }
+
     const urlImage = "https://cdn.appanimeplus.tk/img/";
+    const categorias = [
+        "aventura",
+        "acao",
+        "comedia",
+        "drama",
+        "dublado",
+        "ecchi",
+        "escolar",
+        "esporte",
+        "fantasia",
+        "filme",
+        "harem",
+        "historico",
+        "jogo",
+        "josei",
+        "magia",
+        "mecha",
+        "militar",
+        "misterio",
+        "ova",
+        "poderes",
+        "psicologico",
+        "romance",
+        "samurai",
+        "sci-fi",
+        "seinen",
+        "shoujo",
+        "shounen",
+        "slice_of_life",
+        "sobrenatural",
+        "suspense",
+        "terror",
+        "yaoi",
+        "yuri",
+    ];
 
     const Content = () => {
         const [searchAnime, setSearchAnime] = useState("");
@@ -185,7 +209,7 @@ const App = (props: any) => {
 
                 <div>
                     {searchAnime.length <= 0 ? (
-                        <div className="w-1/2 flex mx-auto pb-10 rounded-xl"></div>
+                        <div className="w-1/2 flex mx-auto  rounded-xl"></div>
                     ) : (
                         <div className="lg:w-1/2 flex mx-auto pb-10 rounded-xl">
                             <div className="h-[300px] flex-wrap flex w-full overflow-y-auto">
@@ -259,6 +283,22 @@ const App = (props: any) => {
                     </div>
                 ) : (
                     <>
+                        <div className="px-12 ">
+                            <div className="text-2xl font-bold">Categorias</div>
+
+                            <div className="flex flex-wrap mx-auto py-10 gap-10">
+                                {categorias.map((categoria: string) => {
+                                    return (
+                                        <Link href={`/categoria/${categoria}`}>
+                                            <PrimaryButton>
+                                                {toTitleCase(categoria)}
+                                            </PrimaryButton>
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
                         <div className="px-12 text-2xl font-bold">
                             Populares
                         </div>

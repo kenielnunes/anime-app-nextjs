@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import AnimesListOverflow from "../../components/AnimesListOverflow";
+import { PrimaryButton } from "../../components/buttons/PrimaryButton";
 import InfoAnime from "../../components/InfoAnime";
 import ModalEps from "../../components/ModalEps";
 
@@ -66,7 +67,7 @@ export default function Post({ epsData, animeInfo }: any) {
     console.log(animeInfo);
 
     const [stream, setStream] = useState("");
-    const [videoId, setVideoId] = useState("");
+    // const [videoId, setVideoId] = useState("");
 
     const urlImage = "https://cdn.appanimeplus.tk/img/";
 
@@ -205,25 +206,27 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           {/* <button className="rounded-md bg-[#26A85A]  px-4">
                                                   Visto
                                               </button> */}
-                                                          <button
-                                                              data-bs-toggle="modal"
-                                                              data-bs-target={`#${convertStringToSlug(
-                                                                  episodio.title
-                                                              )}`}
-                                                              onClick={() => {
-                                                                  getVideo(
-                                                                      episodio.video_id
-                                                                  );
-                                                                  setVideoId(
-                                                                      convertStringToSlug(
-                                                                          episodio.title
-                                                                      )
-                                                                  );
-                                                              }}
-                                                              className="rounded-md bg-[#16308A] px-4 py-2"
-                                                          >
-                                                              Assistir
-                                                          </button>
+                                                          <div className="button-borders">
+                                                              <button
+                                                                  data-bs-toggle="modal"
+                                                                  data-bs-target={`#${convertStringToSlug(
+                                                                      episodio.title
+                                                                  )}`}
+                                                                  onClick={() => {
+                                                                      getVideo(
+                                                                          episodio.video_id
+                                                                      );
+                                                                      //   setVideoId(
+                                                                      //       convertStringToSlug(
+                                                                      //           episodio.title
+                                                                      //       )
+                                                                      //   );
+                                                                  }}
+                                                                  className="primaryButton"
+                                                              >
+                                                                  Assistir
+                                                              </button>
+                                                          </div>
                                                       </div>
                                                   </div>
                                                   <ModalEps
@@ -263,11 +266,11 @@ export default function Post({ epsData, animeInfo }: any) {
                                                                   getVideo(
                                                                       episodio.video_id
                                                                   );
-                                                                  setVideoId(
-                                                                      convertStringToSlug(
-                                                                          episodio.title
-                                                                      )
-                                                                  );
+                                                                  //   setVideoId(
+                                                                  //       convertStringToSlug(
+                                                                  //           episodio.title
+                                                                  //       )
+                                                                  //   );
                                                               }}
                                                               className="rounded-md bg-[#16308A] px-4 py-2"
                                                           >
