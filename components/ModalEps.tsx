@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Player } from "video-react";
+import "video-react/dist/video-react.css";
 
 type Modal = {
     srcVideo: string;
@@ -87,6 +89,10 @@ export default function ModalEps({
                                         className="w-full"
                                         src={srcVideo}
                                     ></video>
+
+                                    {/* <Player>
+                                        <source src={srcVideo} />
+                                    </Player> */}
                                 </div>
                             </div>
                         </div>

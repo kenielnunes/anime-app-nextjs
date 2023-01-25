@@ -2,7 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef, useState, useEffect } from "react";
-
+import { Player } from "video-react";
+import "video-react/dist/video-react.css";
 import Skeleton from "@mui/material/Skeleton";
 import Head from "next/head";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
