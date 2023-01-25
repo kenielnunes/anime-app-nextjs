@@ -18,7 +18,6 @@ export default createGlobalStyle`
 }
 
 .primaryButton {
- font-family: 'Ropa Sans', sans-serif;
     /* font-family: 'Valorant', sans-serif; */
  color: white;
  cursor: pointer;

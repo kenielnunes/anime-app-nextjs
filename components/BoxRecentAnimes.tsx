@@ -5,5 +5,9 @@ interface PropsBoxRecentAnime {
 }
 
 export function BoxRecentAnime({ children }: PropsBoxRecentAnime) {
-    return <div className="boxRecentAnimes flex w-screen">{children}</div>;
+    return (
+        <div className="boxRecentAnimes font-montserratAlt flex w-screen">
+            {children}
+        </div>
+    );
 }

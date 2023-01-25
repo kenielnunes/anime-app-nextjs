@@ -20,6 +20,7 @@ import { PrimaryButton } from "../../components/buttons/PrimaryButton";
 import { BoxRecentAnime } from "../../components/BoxRecentAnimes";
 import Link from "next/link";
 import Navbar from "../../components/Layout/Navbar";
+import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
 
 const App = (props: any) => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
@@ -139,7 +140,9 @@ const App = (props: any) => {
                                                     <Link
                                                         href={`episodio/${data.video_id}`}
                                                     >
-                                                        <PrimaryButton />
+                                                        <PrimaryButton>
+                                                            ASSISTIR
+                                                        </PrimaryButton>
                                                     </Link>
                                                 </div>
                                             </div>
@@ -283,33 +286,16 @@ const App = (props: any) => {
                             {popularAnimeData.map((popularData: any) => {
                                 return (
                                     <SplideSlide>
-                                        <a
-                                            href={`anime/${popularData.id}`}
-                                            style={{
-                                                backgroundImage: `url(
-                                          ${urlImage}${popularData.category_image}
-                                      )`,
-                                                backgroundRepeat: "no-repeat",
-                                                backgroundPosition: "center",
-                                                backgroundSize: "cover",
-                                            }}
-                                            key={popularData.id}
+                                        <CardAnimePadrao
+                                            link={`anime/${popularData.id}`}
+                                            imageSrc={`${urlImage}${popularData.category_image}`}
                                             id={popularData.id}
-                                            className="h-[300px] w-[220px] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300"
-                                        >
-                                            <div className="h-[35%] w-full bg-black bg-opacity-60 ">
-                                                <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
-                                                    {popularData.category_name}
-                                                </div>
-                                            </div>
-                                        </a>
+                                            name={popularData.category_name}
+                                        />
                                     </SplideSlide>
                                 );
                             })}
                         </Splide>
-                        <div className="px-12 text-2xl font-bold">
-                            Episódios recentes
-                        </div>
                     </>
                 )}
             </div>
@@ -321,7 +307,7 @@ const App = (props: any) => {
             <Head>
                 <title>Anime App</title>
             </Head>
-            {/* <Navbar /> */}
+            <Navbar />
             <Content />
         </>
     );
