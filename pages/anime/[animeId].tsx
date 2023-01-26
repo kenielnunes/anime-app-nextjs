@@ -6,6 +6,7 @@ import AnimesListOverflow from "../../components/AnimesListOverflow";
 import { PrimaryButton } from "../../components/buttons/PrimaryButton";
 import InfoAnime from "../../components/InfoAnime";
 import ModalEps from "../../components/ModalEps";
+import { useCookies } from "react-cookie";
 
 export async function getStaticPaths() {
     // CORRETO COM TODOS ANIMES
@@ -160,6 +161,11 @@ export default function Post({ epsData, animeInfo }: any) {
     }
 
     const [epAssistido, setEpAssistido] = useState<any>([]);
+    const [arrayEpsAssistido, setArrayEpsAssistido] = useState<any>([]);
+    console.log(
+        "🚀 ~ file: [animeId].tsx:164 ~ Post ~ arrayEpsAssistido",
+        arrayEpsAssistido
+    );
 
     function getCookie(cname) {
         let name = cname + "=";
@@ -176,19 +182,32 @@ export default function Post({ epsData, animeInfo }: any) {
         return "";
     }
 
+    const [cookie, setCookie] = useCookies(["epAssistido"]);
+    const handleEpsAssisitdos = () => {
+        setCookie("epAssistido", JSON.stringify(epAssistido), {
+            path: "/",
+            maxAge: 3600, // Expires after 1hr
+            sameSite: true,
+        });
+    };
+
     useEffect(() => {
-        function setCookie(cname, cvalue, exdays) {
-            const d = new Date();
-            d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-            let expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
+        handleEpsAssisitdos();
+        // function setCookie(cname, cvalue, exdays) {
+        //     const d = new Date();
+        //     d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+        //     let expires = "expires=" + d.toUTCString();
+        //     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        // }
 
         // const eps = epsData.map(({ video_id }: any) => {
         //     return video_id;
         // });
 
-        setCookie("epAssistido", JSON.stringify(epAssistido), 1000);
+        // setCookie("epAssistido", JSON.stringify(epAssistido), 1000);
+        getCookie("epAssistido");
+
+        console.log(getCookie("epAssistido"));
     }, [epAssistido]);
 
     return (
@@ -240,22 +259,37 @@ export default function Post({ epsData, animeInfo }: any) {
                                                       </div>
                                                       <div className="flex gap-6">
                                                           <button
-                                                              onClick={() =>
-                                                                  setEpAssistido(
+                                                              onClick={() => {
+                                                                  setCookie(
+                                                                      "epAssistido",
                                                                       (
-                                                                          prevState: any
-                                                                      ) => [
-                                                                          ...prevState,
-                                                                          episodio.video_id,
-                                                                      ]
-                                                                  )
-                                                              }
+                                                                        JSON.stringify(
+                                                                            episodio.video_id
+                                                                        ),
+                                                                      ),
+                                                                      {
+                                                                          path: "/",
+                                                                          maxAge: 3600, // Expires after 1hr
+                                                                          sameSite:
+                                                                              true,
+                                                                      }
+                                                                  );
+
+                                                                  //   setArrayEpsAssistido(
+                                                                  //       getCookie(
+                                                                  //           "epAssistido"
+                                                                  //       )
+                                                                  //   );
+                                                              }}
                                                               className="rounded-md bg-[#26A85A] px-4"
                                                           >
                                                               {getCookie(
                                                                   "epAssistido"
-                                                              )}
-                                                              Visto
+                                                              ).includes(
+                                                                  episodio.video_id
+                                                              )
+                                                                  ? "Ok"
+                                                                  : "Marcar como visto"}
                                                           </button>
                                                           <div className="button-borders">
                                                               <button
