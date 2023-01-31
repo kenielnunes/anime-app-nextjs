@@ -7,6 +7,7 @@ import { PrimaryButton } from "../../components/buttons/PrimaryButton";
 import InfoAnime from "../../components/InfoAnime";
 import ModalEps from "../../components/ModalEps";
 import { useCookies } from "react-cookie";
+import Cookies from "js-cookie";
 
 export async function getStaticPaths() {
     // CORRETO COM TODOS ANIMES
@@ -156,10 +157,6 @@ export default function Post({ epsData, animeInfo }: any) {
             .catch((error) => console.log("error", error));
     }
 
-    if (typeof window !== "undefined") {
-        // browser code
-    }
-
     const [epAssistido, setEpAssistido] = useState<any>([]);
     const [arrayEpsAssistido, setArrayEpsAssistido] = useState<any>([]);
     console.log(
@@ -167,48 +164,22 @@ export default function Post({ epsData, animeInfo }: any) {
         arrayEpsAssistido
     );
 
-    function getCookie(cname) {
-        let name = cname + "=";
-        let ca = document.cookie.split(";");
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == " ") {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
+    interface MyArrayItem {
+        value: string;
     }
 
-    const [cookie, setCookie] = useCookies(["epAssistido"]);
-    const handleEpsAssisitdos = () => {
-        setCookie("epAssistido", JSON.stringify(epAssistido), {
-            path: "/",
-            maxAge: 3600, // Expires after 1hr
-            sameSite: true,
-        });
+    let array: any = Cookies.get("epsAssistidos");
+    if (array) {
+        array = JSON.parse(array);
+    } else {
+        array = [];
+    }
+    const [myArray, setMyArray] = useState<MyArrayItem[]>(array);
+
+    const handleClick = (idEpisodio: any) => {
+        setMyArray([...myArray, idEpisodio]);
+        Cookies.set("epsAssistidos", JSON.stringify(myArray));
     };
-
-    useEffect(() => {
-        handleEpsAssisitdos();
-        // function setCookie(cname, cvalue, exdays) {
-        //     const d = new Date();
-        //     d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-        //     let expires = "expires=" + d.toUTCString();
-        //     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        // }
-
-        // const eps = epsData.map(({ video_id }: any) => {
-        //     return video_id;
-        // });
-
-        // setCookie("epAssistido", JSON.stringify(epAssistido), 1000);
-        getCookie("epAssistido");
-
-        console.log(getCookie("epAssistido"));
-    }, [epAssistido]);
 
     return (
         <>
@@ -258,39 +229,23 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           {episodio.title}
                                                       </div>
                                                       <div className="flex gap-6">
-                                                          <button
-                                                              onClick={() => {
-                                                                  setCookie(
-                                                                      "epAssistido",
-                                                                      (
-                                                                        JSON.stringify(
-                                                                            episodio.video_id
-                                                                        ),
-                                                                      ),
-                                                                      {
-                                                                          path: "/",
-                                                                          maxAge: 3600, // Expires after 1hr
-                                                                          sameSite:
-                                                                              true,
-                                                                      }
-                                                                  );
+                                                          <div className="button-borders">
+                                                              <button
+                                                                  onClick={() =>
+                                                                      handleClick(
+                                                                          episodio.video_id
+                                                                      )
+                                                                  }
+                                                                  className="primaryButton"
+                                                              >
+                                                                  {myArray.includes(
+                                                                      episodio.video_id
+                                                                  )
+                                                                      ? "Ok"
+                                                                      : "Visto"}
+                                                              </button>
+                                                          </div>
 
-                                                                  //   setArrayEpsAssistido(
-                                                                  //       getCookie(
-                                                                  //           "epAssistido"
-                                                                  //       )
-                                                                  //   );
-                                                              }}
-                                                              className="rounded-md bg-[#26A85A] px-4"
-                                                          >
-                                                              {getCookie(
-                                                                  "epAssistido"
-                                                              ).includes(
-                                                                  episodio.video_id
-                                                              )
-                                                                  ? "Ok"
-                                                                  : "Marcar como visto"}
-                                                          </button>
                                                           <div className="button-borders">
                                                               <button
                                                                   data-bs-toggle="modal"
@@ -301,11 +256,6 @@ export default function Post({ epsData, animeInfo }: any) {
                                                                       getVideo(
                                                                           episodio.video_id
                                                                       );
-                                                                      //   setVideoId(
-                                                                      //       convertStringToSlug(
-                                                                      //           episodio.title
-                                                                      //       )
-                                                                      //   );
                                                                   }}
                                                                   className="primaryButton"
                                                               >
@@ -339,28 +289,25 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           {episodio.title}
                                                       </div>
                                                       <div className="flex gap-6">
-                                                          <button className="rounded-md bg-[#26A85A]  px-4">
+                                                          {/* <button className="rounded-md bg-[#26A85A]  px-4">
                                                               Visto
-                                                          </button>
-                                                          <button
-                                                              data-bs-toggle="modal"
-                                                              data-bs-target={`#${convertStringToSlug(
-                                                                  episodio.title
-                                                              )}`}
-                                                              onClick={() => {
-                                                                  getVideo(
-                                                                      episodio.video_id
-                                                                  );
-                                                                  //   setVideoId(
-                                                                  //       convertStringToSlug(
-                                                                  //           episodio.title
-                                                                  //       )
-                                                                  //   );
-                                                              }}
-                                                              className="rounded-md bg-[#16308A] px-4 py-2"
-                                                          >
-                                                              Assistir
-                                                          </button>
+                                                          </button> */}
+                                                          <div className="button-borders">
+                                                              <button
+                                                                  data-bs-toggle="modal"
+                                                                  data-bs-target={`#${convertStringToSlug(
+                                                                      episodio.title
+                                                                  )}`}
+                                                                  onClick={() => {
+                                                                      getVideo(
+                                                                          episodio.video_id
+                                                                      );
+                                                                  }}
+                                                                  className="primaryButton"
+                                                              >
+                                                                  Assistir
+                                                              </button>
+                                                          </div>
                                                       </div>
                                                   </div>
                                                   <ModalEps
@@ -375,41 +322,6 @@ export default function Post({ epsData, animeInfo }: any) {
                                                       setBeforeEp={undefined}
                                                       setNextEp={undefined}
                                                   />
-                                                  {/* {dataSelectedEp != null ? (
-                                                      <ModalEps
-                                                          srcVideo={stream}
-                                                          idModal={convertStringToSlug(
-                                                              dataSelectedEp.title
-                                                          )}
-                                                          closeStream={() =>
-                                                              setStream("")
-                                                          }
-                                                          epTitle={
-                                                              dataSelectedEp.title
-                                                          }
-                                                          setBeforeEp={
-                                                              undefined
-                                                          }
-                                                          setNextEp={undefined}
-                                                      />
-                                                  ) : (
-                                                      <ModalEps
-                                                          srcVideo={stream}
-                                                          idModal={convertStringToSlug(
-                                                              episodio.title
-                                                          )}
-                                                          closeStream={() =>
-                                                              setStream("")
-                                                          }
-                                                          epTitle={
-                                                              episodio.title
-                                                          }
-                                                          setBeforeEp={
-                                                              undefined
-                                                          }
-                                                          setNextEp={undefined}
-                                                      />
-                                                  )} */}
                                               </>
                                           );
                                       })}
