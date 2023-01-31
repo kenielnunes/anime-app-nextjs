@@ -1,6 +1,7 @@
 import Head from "next/head";
 import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
 import Navbar from "../../components/Layout/Navbar";
+import MyPagination from "../../components/Layout/Pagination";
 
 export async function getStaticPaths() {
     const categorias = [
@@ -109,14 +110,35 @@ export default function CategoriesList({ animeInfo }: Prop) {
     // console.log(epsData);
     console.log(animeInfo);
     const urlImage = "https://cdn.appanimeplus.tk/img/";
+
+    // const Content = () => {
+    //     return (
+    //         <>
+    //             <div className="flex flex-wrap w-full container mx-auto gap-10">
+    //                 {animeInfo.slice(0, 50).map((data: any) => {
+    //                     return (
+    //                         <>
+    //                             <CardAnimePadrao
+    //                                 link={`/anime/${data.id}`}
+    //                                 imageSrc={`${urlImage}${data.category_image}`}
+    //                                 id={data.id}
+    //                                 name={data.category_name}
+    //                             />
+    //                         </>
+    //                     );
+    //                 })}
+    //             </div>
+    //         </>
+    //     );
+    // };
+
     return (
         <>
             <Head>
                 <title>Anime App</title>
             </Head>
-            <Navbar />
-            <div className="flex flex-wrap w-full container mx-auto gap-10">
-                {animeInfo.slice(0, 50).map((data: any) => {
+            <MyPagination
+                items={animeInfo.map((data: any) => {
                     return (
                         <>
                             <CardAnimePadrao
@@ -128,7 +150,9 @@ export default function CategoriesList({ animeInfo }: Prop) {
                         </>
                     );
                 })}
-            </div>
+            />
+            <Navbar />
+            {/* <Content /> */}
         </>
     );
 }
