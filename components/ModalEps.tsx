@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Player } from "video-react";
 import "video-react/dist/video-react.css";
+import VideoPlayer from "./video/VideoPlayer";
 
 type Modal = {
     srcVideo: string;
@@ -84,15 +85,12 @@ export default function ModalEps({
                                     className="text-xl font-medium leading-normal text-gray-800"
                                     id="exampleModalScrollableLabel"
                                 >
+                                    {/* <VideoPlayer url={srcVideo} /> */}
                                     <video
                                         controls
                                         className="w-full"
                                         src={srcVideo}
                                     ></video>
-
-                                    {/* <Player>
-                                        <source src={srcVideo} />
-                                    </Player> */}
                                 </div>
                             </div>
                         </div>

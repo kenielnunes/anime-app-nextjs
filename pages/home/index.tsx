@@ -22,6 +22,7 @@ import { BoxRecentAnime } from "../../components/BoxRecentAnimes";
 import Link from "next/link";
 import Navbar from "../../components/Layout/Navbar";
 import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
+import VideoPlayer from "../../components/video/VideoPlayer";
 
 const App = (props: any) => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
@@ -134,7 +135,7 @@ const App = (props: any) => {
         }, [searchAnime]);
 
         return (
-            <div className="flex mx-auto flex-col">
+            <div className="flex mx-auto overflow-x-hidden flex-col">
                 <div className="flex  w-screen">
                     <BoxRecentAnime>
                         {recentAnimeData.slice(0, 18).map((data: any) => {
@@ -286,6 +287,12 @@ const App = (props: any) => {
                     <>
                         <div className="px-12 ">
                             <div className="text-2xl font-bold">Categorias</div>
+
+                            {/* <VideoPlayer
+                                url={
+                                    "https://get.atv2.net/m.php?token=b2FHWDlWUG9DbE9reGlaT1hXMmlOaVF0aFZwWTRmdmJOeFI3SXVtS1B4Z2N5VWRScnVMUzRlakpxSEFsdmRhM0pocXVNQXprd3R6c291elRLeURNdE5kRzQ1dDJ0QTZCSkFNa3M5MFpYelBVM0xPUm9TTFdDY2JhOXZ6U25Lb0ROMDVOakZjMUV6VWlrVzFmVzZQVFVRcDI0ODFaSlRpdENlVVdOSWdUbXJZczNFaXZSd3RPTEV1KzdsZitTaHd1&qh=hd"
+                                }
+                            /> */}
 
                             <div className="flex flex-wrap mx-auto py-10 gap-10">
                                 {categorias.map((categoria: string) => {
