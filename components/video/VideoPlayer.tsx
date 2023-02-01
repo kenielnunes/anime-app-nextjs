@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
 
-const VideoPlayer = ({ url }) => {
+const VideoPlayer = ({ url }: any) => {
     const [volume, setVolume] = useState(0.8);
     const [fullScreen, setFullScreen] = useState(false);
 
