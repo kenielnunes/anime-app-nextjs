@@ -28,24 +28,45 @@ const App = (props: any) => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
     const [popularAnimeData, setPopularAnimeData] = useState<any>([]);
 
-    // const config = {
-    //     apiKey: "AIzaSyBj-ao91n7by0dYlZR-RAMMu5DdZJXRkUo",
-    //     searchEngineId: "64c5cf84c3e914f5b",
-    // };
+    useEffect(() => {
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker
+                    .register("/service-worker.js")
+                    .then((registration) => {
+                        console.log(
+                            "Service Worker registrado com sucesso:",
+                            registration
+                        );
+                    })
+                    .catch((error) => {
+                        console.error(
+                            "Erro ao registrar o Service Worker:",
+                            error
+                        );
+                    });
+            });
+        }
 
-    // const query = `https://www.googleapis.com/customsearch/v1?key=${
-    //     config.apiKey
-    // }&cx=${
-    //     config.searchEngineId
-    // }&q=${"demon slayer"}&searchType=image&imgSize=huge`;
-
-    // const animeLoaded =
-    //     popularAnimeData[Math.floor(Math.random() * popularAnimeData.length)];
-
-    console.log(
-        "🚀 ~ file: index.tsx:29 ~ App ~ popularAnimeData",
-        popularAnimeData
-    );
+        Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {
+                fetch(
+                    "https://appanimeplus.tk/play-api.php?latest",
+                    requestOptions
+                )
+                    .then((response) => response.json())
+                    .then((result) => {
+                        var notification = new Notification(`Anime App`, {
+                            body: `
+                                Venha conferir!\n${result[0].title}
+                            `,
+                            image: `${urlImage}${result[0].category_image}`,
+                        });
+                    })
+                    .catch((error) => console.log("error", error));
+            }
+        });
+    }, []);
 
     const [loading, setLoading] = useState(false);
 

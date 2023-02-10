@@ -10,18 +10,18 @@ import "../styles/globals.css";
 import { useEffect } from "react";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
-  useEffect(() => {
-    const use = async () => {
-      (await import("tw-elements")).default;
-    };
-    use();
-  }, []);
-  return (
-    <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
-      <GlobalStyle />
-    </ThemeProvider>
-  );
+    useEffect(() => {
+        const use = async () => {
+            (await import("tw-elements")).default;
+        };
+        use();
+    }, []);
+    return (
+        <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+            <GlobalStyle />
+        </ThemeProvider>
+    );
 };
 
 export default MyApp;
