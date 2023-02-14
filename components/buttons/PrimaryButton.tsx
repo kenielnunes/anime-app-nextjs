@@ -4,6 +4,7 @@ interface PropsPrimaryuButton {
     dataBsTarget?: string;
     onClick?: () => void;
     hexadecimalColor?: string;
+    type?: "button" | "submit";
 }
 
 export function PrimaryButton({
@@ -12,11 +13,13 @@ export function PrimaryButton({
     dataBsTarget,
     onClick,
     hexadecimalColor,
+    type,
 }: PropsPrimaryuButton) {
     return (
         <>
             <div className="button-borders">
                 <button
+                    type={type}
                     data-bs-toggle={`${dataBsToggle}`}
                     data-bs-target={`${dataBsTarget}`}
                     onClick={onClick}

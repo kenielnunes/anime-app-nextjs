@@ -2,13 +2,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import React, { useRef, useState, useEffect } from "react";
-import { Player } from "video-react";
 import "video-react/dist/video-react.css";
 import Skeleton from "@mui/material/Skeleton";
 import Head from "next/head";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
-// Default theme
 import "@splidejs/react-splide/css";
 
 // or other themes
@@ -22,9 +20,8 @@ import { BoxRecentAnime } from "../../components/BoxRecentAnimes";
 import Link from "next/link";
 import Navbar from "../../components/Layout/Navbar";
 import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
-import VideoPlayer from "../../components/video/VideoPlayer";
-import { ProgressBar } from "../../components/loader/ProgressBar";
-import InputPadrão from "../../components/inputs/InputPadrão";
+import InputPadrão from "../../components/inputs/InputPadrao";
+import jwt from "jsonwebtoken";
 
 const App = () => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
@@ -200,27 +197,43 @@ const App = () => {
                 length = 16;
         }
 
-        const [dadosUserLogado, setDadosUserLogado] = useState([]);
+        interface User {
+            name: string;
+        }
+
+        const [dadosUserLogado, setDadosUserLogado] = useState<User>();
 
         useEffect(() => {
             const tokenJWT = localStorage.getItem("token");
 
-            var myHeaders = new Headers();
-            myHeaders.append("Authorization", `Bearer ${tokenJWT}`);
+            function getPayloadFromToken(token: string) {
+                const decodedToken = jwt.decode(token, { complete: true });
+                if (!decodedToken) {
+                    throw new Error("Token inválido");
+                }
+                return decodedToken.payload;
+            }
 
-            var requestOptions: any = {
-                method: "GET",
-                headers: myHeaders,
-                redirect: "follow",
-            };
+            const token: any = tokenJWT;
+            const payload = getPayloadFromToken(token);
+            console.log(payload);
 
-            fetch("https://api-project-vdlx.onrender.com/users", requestOptions)
-                .then((response) => response.json())
-                .then((result) => {
-                    setDadosUserLogado(result.data[0]);
-                    console.log(result);
-                })
-                .catch((error) => console.log("error", error));
+            // var myHeaders = new Headers();
+            // myHeaders.append("Authorization", `Bearer ${tokenJWT}`);
+
+            // var requestOptions: any = {
+            //     method: "GET",
+            //     headers: myHeaders,
+            //     redirect: "follow",
+            // };
+
+            // fetch("https://api-project-vdlx.onrender.com/users", requestOptions)
+            //     .then((response) => response.json())
+            //     .then((result) => {
+            //         setDadosUserLogado(result.data[0]);
+            //         console.log(result);
+            //     })
+            //     .catch((error) => console.log("error", error));
         }, []);
 
         return (
@@ -278,7 +291,7 @@ const App = () => {
                 </div>
                 <div>
                     <div className="px-12">
-                        Bem vindo - {dadosUserLogado?.name}
+                        {/* Bem vindo - {dadosUserLogado?.name} */}
                     </div>
 
                     {searchAnime.length <= 0 ? (
