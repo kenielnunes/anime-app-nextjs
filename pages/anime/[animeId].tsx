@@ -229,39 +229,37 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           {episodio.title}
                                                       </div>
                                                       <div className="flex gap-6">
-                                                          <div className="button-borders">
-                                                              <button
-                                                                  onClick={() =>
-                                                                      handleClick(
-                                                                          episodio.video_id
-                                                                      )
-                                                                  }
-                                                                  className="primaryButton"
-                                                              >
-                                                                  {myArray.includes(
+                                                          <PrimaryButton
+                                                              hexadecimalColor="0B0B29"
+                                                              dataBsTarget={`#${convertStringToSlug(
+                                                                  episodio.title
+                                                              )}`}
+                                                              onClick={() =>
+                                                                  handleClick(
                                                                       episodio.video_id
                                                                   )
-                                                                      ? "Ok"
-                                                                      : "Visto"}
-                                                              </button>
-                                                          </div>
-
-                                                          <div className="button-borders">
-                                                              <button
-                                                                  data-bs-toggle="modal"
-                                                                  data-bs-target={`#${convertStringToSlug(
-                                                                      episodio.title
-                                                                  )}`}
-                                                                  onClick={() => {
-                                                                      getVideo(
-                                                                          episodio.video_id
-                                                                      );
-                                                                  }}
-                                                                  className="primaryButton"
-                                                              >
-                                                                  Assistir
-                                                              </button>
-                                                          </div>
+                                                              }
+                                                          >
+                                                              {myArray.includes(
+                                                                  episodio.video_id
+                                                              )
+                                                                  ? "Visto"
+                                                                  : "Marcar como visto"}
+                                                          </PrimaryButton>
+                                                          <PrimaryButton
+                                                              hexadecimalColor="FF4655"
+                                                              dataBsTarget={`#${convertStringToSlug(
+                                                                  episodio.title
+                                                              )}`}
+                                                              dataBsToggle="modal"
+                                                              onClick={() => {
+                                                                  getVideo(
+                                                                      episodio.video_id
+                                                                  );
+                                                              }}
+                                                          >
+                                                              Assistir
+                                                          </PrimaryButton>
                                                       </div>
                                                   </div>
                                                   <ModalEps
@@ -289,9 +287,6 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           {episodio.title}
                                                       </div>
                                                       <div className="flex gap-6">
-                                                          {/* <button className="rounded-md bg-[#26A85A]  px-4">
-                                                              Visto
-                                                          </button> */}
                                                           <div className="button-borders">
                                                               <button
                                                                   data-bs-toggle="modal"

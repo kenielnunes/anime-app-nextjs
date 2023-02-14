@@ -23,10 +23,21 @@ import Link from "next/link";
 import Navbar from "../../components/Layout/Navbar";
 import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
 import VideoPlayer from "../../components/video/VideoPlayer";
+import { ProgressBar } from "../../components/loader/ProgressBar";
+import InputPadrão from "../../components/inputs/InputPadrão";
 
-const App = (props: any) => {
+const App = () => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
     const [popularAnimeData, setPopularAnimeData] = useState<any>([]);
+    const [width, setWidth] = useState<any>();
+
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         if ("serviceWorker" in navigator) {
@@ -56,11 +67,16 @@ const App = (props: any) => {
                 )
                     .then((response) => response.json())
                     .then((result) => {
+                        const randomIndex = Math.floor(
+                            Math.random() * result.length
+                        );
+                        const randomElement = result[randomIndex];
+
                         var notification = new Notification(`Anime App`, {
                             body: `
-                                Venha conferir!\n${result[0].title}
+                                Venha conferir!\n${randomElement.title}
                             `,
-                            image: `${urlImage}${result[0].category_image}`,
+                            image: `${urlImage}${randomElement.category_image}`,
                         });
                     })
                     .catch((error) => console.log("error", error));
@@ -145,6 +161,10 @@ const App = (props: any) => {
     const Content = () => {
         const [searchAnime, setSearchAnime] = useState("");
         const [animeEnabledSearch, setAnimeEnabledSearch] = useState([]);
+        console.log(
+            "🚀 ~ file: index.tsx:164 ~ Content ~ animeEnabledSearch",
+            animeEnabledSearch
+        );
 
         useEffect(() => {
             fetch(`https://appanimeplus.tk/play-api.php?search=${searchAnime}`)
@@ -155,11 +175,59 @@ const App = (props: any) => {
                 .catch((error) => console.log("error", error));
         }, [searchAnime]);
 
+        let length;
+
+        switch (true) {
+            case width <= 425:
+                length = 2;
+                break;
+            case width <= 768:
+                length = 3;
+                break;
+            case width <= 1024:
+                length = 8;
+                break;
+            case width <= 1280:
+                length = 10;
+                break;
+            case width <= 1440:
+                length = 12;
+                break;
+            case width <= 1600:
+                length = 14;
+                break;
+            default:
+                length = 16;
+        }
+
+        const [dadosUserLogado, setDadosUserLogado] = useState([]);
+
+        useEffect(() => {
+            const tokenJWT = localStorage.getItem("token");
+
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", `Bearer ${tokenJWT}`);
+
+            var requestOptions: any = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow",
+            };
+
+            fetch("https://api-project-vdlx.onrender.com/users", requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                    setDadosUserLogado(result.data[0]);
+                    console.log(result);
+                })
+                .catch((error) => console.log("error", error));
+        }, []);
+
         return (
             <div className="flex mx-auto overflow-x-hidden flex-col">
-                <div className="flex  w-screen">
+                <div className="flex w-screen">
                     <BoxRecentAnime>
-                        {recentAnimeData.slice(0, 18).map((data: any) => {
+                        {recentAnimeData.slice(0, length).map((data: any) => {
                             return (
                                 <>
                                     <p
@@ -187,7 +255,7 @@ const App = (props: any) => {
                                                     <Link
                                                         href={`episodio/${data.video_id}`}
                                                     >
-                                                        <PrimaryButton>
+                                                        <PrimaryButton hexadecimalColor="FF4655">
                                                             ASSISTIR
                                                         </PrimaryButton>
                                                     </Link>
@@ -195,44 +263,26 @@ const App = (props: any) => {
                                             </div>
                                         </span>
                                     </p>
-                                    {/* <div
-                                    // href={`episodio/${data.video_id}`}
-                                    style={{
-                                        backgroundImage: `url(
-                                          ${urlImage}${data.category_image}
-                                      )`,
-                                        backgroundRepeat: "no-repeat",
-                                        backgroundPosition: "center",
-                                        backgroundSize: "cover",
-                                    }}
-                                    key={data.id}
-                                    id={data.id}
-                                    className="h-[300px] w-[15%] flex items-end rounded-lg opacity-90 hover:opacity-100 duration-300 group"
-                                >
-                                    <div className="h-[35%] w-full bg-black bg-opacity-60 hidden group-hover:flex ease-in-out duration-300 ">
-                                        <div className="font-semibold text-white p-2 max-h-full overflow-y-auto">
-                                            {data.title}
-                                        </div>
-                                    </div>
-                                </div> */}
                                 </>
                             );
                         })}
                     </BoxRecentAnime>
                 </div>
 
-                <div className="py-10">
-                    <input
+                <div className="pt-10 flex w-1/2 mx-auto">
+                    <InputPadrão
                         onChange={(e) => setSearchAnime(e.target.value)}
-                        className="p-4 w-1/2 flex mx-auto border-2 text-black rounded-xl"
-                        type="text"
-                        placeholder="pesquisar"
+                        placeholder="Pesquisar..."
+                        type={"text"}
                     />
                 </div>
-
                 <div>
+                    <div className="px-12">
+                        Bem vindo - {dadosUserLogado?.name}
+                    </div>
+
                     {searchAnime.length <= 0 ? (
-                        <div className="w-1/2 flex mx-auto  rounded-xl"></div>
+                        <div className="w-1/2 flex mx-auto rounded-xl"></div>
                     ) : (
                         <div className="lg:w-1/2 flex mx-auto pb-10 rounded-xl">
                             <div className="h-[300px] flex-wrap flex w-full overflow-y-auto">
@@ -319,7 +369,7 @@ const App = (props: any) => {
                                 {categorias.map((categoria: string) => {
                                     return (
                                         <Link href={`/categoria/${categoria}`}>
-                                            <PrimaryButton>
+                                            <PrimaryButton hexadecimalColor="FF4655">
                                                 {toTitleCase(categoria)}
                                             </PrimaryButton>
                                         </Link>
