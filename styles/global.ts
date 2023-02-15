@@ -32,7 +32,7 @@ export default createGlobalStyle`
  background-repeat: no-repeat;
  transition: 0.3s ease-in-out;
  transition-property: background-position, border, color;
- position: relative;
+ /* position: relative; */
  z-index: 1;
 }
 
@@ -376,6 +376,56 @@ export default createGlobalStyle`
   border-left: none;
   border-bottom: none;
   border-right: none;
+}
+
+.spinnerLogin {
+ font-size: 18px;
+ font-weight: 600;
+ font-family: monospace;
+ letter-spacing: 1em;
+ color: #f5f5f5;
+ filter: drop-shadow(0 0 10px);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+
+.spinnerLogin span {
+ animation: loading6454 1.75s ease infinite;
+}
+
+.spinnerLogin span:nth-child(2) {
+ animation-delay: 0.25s;
+}
+
+.spinnerLogin span:nth-child(3) {
+ animation-delay: 0.5s;
+}
+
+.spinnerLogin span:nth-child(4) {
+ animation-delay: 0.75s;
+}
+
+.spinnerLogin span:nth-child(5) {
+ animation-delay: 1s;
+}
+
+.spinnerLogin span:nth-child(6) {
+ animation-delay: 1.25s;
+}
+
+.spinnerLogin span:nth-child(7) {
+ animation-delay: 1.5s;
+}
+
+@keyframes loading6454 {
+ 0%, 100% {
+  transform: translateY(0);
+ }
+
+ 50% {
+  transform: translateY(-10px);
+ }
 }
 
 .textInputWrapper .textInput:focus,
