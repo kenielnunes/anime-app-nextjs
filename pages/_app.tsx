@@ -24,16 +24,34 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        let timer: NodeJS.Timeout;
+
         if (!token) {
             router.push("/login");
         } else {
-            const exp: any = jwt_decode(token);
-            if (exp < new Date().getTime() / 1000) {
+            const decodedToken: any = jwt_decode(token);
+            if (decodedToken.exp < new Date().getTime() / 1000) {
                 // token expirado
+                localStorage.removeItem("token"); // Remove o token expirado do localStorage
                 router.push("/login");
+            } else {
+                // token válido
+                timer = setInterval(() => {
+                    const decodedToken: any = jwt_decode(token);
+                    if (decodedToken.exp < new Date().getTime() / 1000) {
+                        // token expirado
+                        clearInterval(timer);
+                        localStorage.removeItem("token"); // Remove o token expirado do localStorage
+                        router.push("/login");
+                    }
+                }, 60000); // Verifica a cada minuto
             }
         }
+
+        return () => clearInterval(timer);
     }, []);
+
+    setTimeout(() => {}, 10000);
 
     if (router.pathname === "/" && !localStorage.getItem("token")) {
         router.push("/login");
