@@ -65,9 +65,6 @@ export async function getStaticProps({ params }: any) {
 }
 
 export default function Post({ epsData, animeInfo }: any) {
-    console.log(epsData);
-    console.log(animeInfo);
-
     const [stream, setStream] = useState("");
     // const [videoId, setVideoId] = useState("");
 
@@ -110,10 +107,6 @@ export default function Post({ epsData, animeInfo }: any) {
     );
 
     const [idVideoAtual, setVideoIdAtual] = useState("");
-    // console.log(
-    //     "🚀 ~ file: [animeId].tsx:95 ~ Post ~ idVideoAtual",
-    //     idVideoAtual
-    // );
 
     function getVideo(idVideo: any) {
         fetch(`https://appanimeplus.tk/play-api.php?episodios=${idVideo}`)
@@ -159,10 +152,6 @@ export default function Post({ epsData, animeInfo }: any) {
 
     const [epAssistido, setEpAssistido] = useState<any>([]);
     const [arrayEpsAssistido, setArrayEpsAssistido] = useState<any>([]);
-    console.log(
-        "🚀 ~ file: [animeId].tsx:164 ~ Post ~ arrayEpsAssistido",
-        arrayEpsAssistido
-    );
 
     interface MyArrayItem {
         value: string;
@@ -229,7 +218,7 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           {episodio.title}
                                                       </div>
                                                       <div className="flex gap-6">
-                                                          <PrimaryButton
+                                                          {/* <PrimaryButton
                                                               hexadecimalColor="0B0B29"
                                                               dataBsTarget={`#${convertStringToSlug(
                                                                   episodio.title
@@ -245,7 +234,7 @@ export default function Post({ epsData, animeInfo }: any) {
                                                               )
                                                                   ? "Visto"
                                                                   : "Marcar como visto"}
-                                                          </PrimaryButton>
+                                                          </PrimaryButton> */}
                                                           <PrimaryButton
                                                               hexadecimalColor="FF4655"
                                                               dataBsTarget={`#${convertStringToSlug(

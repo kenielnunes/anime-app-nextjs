@@ -36,16 +36,31 @@ const App = () => {
         };
     }, []);
 
+    function getLatest() {
+        fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
+            .then((response) => response.json())
+            .then((result) => setRecentAnimeData(result))
+            .catch((error) => console.log("error", error));
+    }
+
+    function getPopulares() {
+        fetch("https://appanimeplus.tk/play-api.php?populares", requestOptions)
+            .then((response) => response.json())
+            .then((result) => setPopularAnimeData(result))
+            .catch((error) => console.log("error", error));
+    }
+
     useEffect(() => {
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", () => {
                 navigator.serviceWorker
                     .register("/service-worker.js")
                     .then((registration) => {
-                        console.log(
-                            "Service Worker registrado com sucesso:",
-                            registration
-                        );
+                        registration;
+                        // console.log(
+                        //     "Service Worker registrado com sucesso:",
+                        //     registration
+                        // );
                     })
                     .catch((error) => {
                         console.error(
@@ -79,6 +94,23 @@ const App = () => {
                     .catch((error) => console.log("error", error));
             }
         });
+
+        getLatest();
+        getPopulares();
+
+        const tokenJWT = localStorage.getItem("token");
+
+        function getPayloadFromToken(token: string) {
+            const decodedToken = jwt.decode(token, { complete: true });
+            if (!decodedToken) {
+                throw new Error("Token inválido");
+            }
+            return decodedToken.payload;
+        }
+
+        const token: any = tokenJWT;
+        const payload = getPayloadFromToken(token);
+        console.log(payload);
     }, []);
 
     const [loading, setLoading] = useState(false);
@@ -88,19 +120,19 @@ const App = () => {
         redirect: "follow",
     };
 
-    useEffect(() => {
-        fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
-            .then((response) => response.json())
-            .then((result) => setRecentAnimeData(result))
-            .catch((error) => console.log("error", error));
-    }, []);
+    // useEffect(() => {
+    //     fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
+    //         .then((response) => response.json())
+    //         .then((result) => setRecentAnimeData(result))
+    //         .catch((error) => console.log("error", error));
+    // }, []);
 
-    useEffect(() => {
-        fetch("https://appanimeplus.tk/play-api.php?populares", requestOptions)
-            .then((response) => response.json())
-            .then((result) => setPopularAnimeData(result))
-            .catch((error) => console.log("error", error));
-    }, []);
+    // useEffect(() => {
+    //     fetch("https://appanimeplus.tk/play-api.php?populares", requestOptions)
+    //         .then((response) => response.json())
+    //         .then((result) => setPopularAnimeData(result))
+    //         .catch((error) => console.log("error", error));
+    // }, []);
 
     useEffect(() => {
         setLoading(true);
@@ -158,10 +190,6 @@ const App = () => {
     const Content = () => {
         const [searchAnime, setSearchAnime] = useState("");
         const [animeEnabledSearch, setAnimeEnabledSearch] = useState([]);
-        console.log(
-            "🚀 ~ file: index.tsx:164 ~ Content ~ animeEnabledSearch",
-            animeEnabledSearch
-        );
 
         useEffect(() => {
             fetch(`https://appanimeplus.tk/play-api.php?search=${searchAnime}`)
@@ -202,39 +230,6 @@ const App = () => {
         }
 
         const [dadosUserLogado, setDadosUserLogado] = useState<User>();
-
-        useEffect(() => {
-            const tokenJWT = localStorage.getItem("token");
-
-            function getPayloadFromToken(token: string) {
-                const decodedToken = jwt.decode(token, { complete: true });
-                if (!decodedToken) {
-                    throw new Error("Token inválido");
-                }
-                return decodedToken.payload;
-            }
-
-            const token: any = tokenJWT;
-            const payload = getPayloadFromToken(token);
-            console.log(payload);
-
-            // var myHeaders = new Headers();
-            // myHeaders.append("Authorization", `Bearer ${tokenJWT}`);
-
-            // var requestOptions: any = {
-            //     method: "GET",
-            //     headers: myHeaders,
-            //     redirect: "follow",
-            // };
-
-            // fetch("https://api-project-vdlx.onrender.com/users", requestOptions)
-            //     .then((response) => response.json())
-            //     .then((result) => {
-            //         setDadosUserLogado(result.data[0]);
-            //         console.log(result);
-            //     })
-            //     .catch((error) => console.log("error", error));
-        }, []);
 
         return (
             <div className="flex mx-auto overflow-x-hidden flex-col">

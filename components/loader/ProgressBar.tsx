@@ -9,7 +9,7 @@ export const ProgressBar = ({ urlRequisicao }: any) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(urlRequisicao);
+            const response: any = await fetch(urlRequisicao);
             const reader = response.body.getReader();
             let loaded = 0;
 
