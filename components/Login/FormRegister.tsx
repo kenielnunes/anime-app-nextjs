@@ -56,11 +56,13 @@ const FormRegister = ({ onLoginClick }: RegisterFormProps) => {
                     setUsername("");
                     setEmail("");
                     setPassword("");
+                    setLoading(false);
                     alert(result.message);
                 } else {
                     setUsername("");
                     setEmail("");
                     setPassword("");
+                    setLoading(false);
                     alert("Ocorreu um erro, tente novamente!");
                 }
             })

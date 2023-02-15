@@ -19,6 +19,7 @@ export default function InputPadrao({
         <>
             <div className="textInputWrapper w-full ">
                 <input
+                    required
                     onChange={onChange}
                     placeholder={placeholder}
                     type={type}
