@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
+import Head from "next/head";
 import Router from "next/router";
 import { useState } from "react";
 import { PrimaryButton } from "../../components/buttons/PrimaryButton";
@@ -80,10 +81,15 @@ const LoginForm = () => {
     };
 
     return (
-        <div className="h-screen flex justify-center items-center">
-            <Form />
-            <Banner />
-        </div>
+        <>
+            <Head>
+                <title>Login | Anime App</title>
+            </Head>
+            <div className="h-screen flex justify-center items-center">
+                <Form />
+                <Banner />
+            </div>
+        </>
     );
 };
 
