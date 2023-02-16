@@ -76,6 +76,7 @@ const FormRegister = ({ onLoginClick }: RegisterFormProps) => {
                     className="lg:w-1/2 flex flex-col gap-4"
                     onSubmit={handleSubmit}
                 >
+                    <div className="text-xl font-semibold">Cadastro</div>
                     <InputPadrao
                         type="text"
                         value={username}
@@ -102,7 +103,7 @@ const FormRegister = ({ onLoginClick }: RegisterFormProps) => {
                         hexadecimalColor="FF4655"
                         type="submit"
                     >
-                        Registrar
+                        Cadastrar
                     </PrimaryButton>
 
                     <div>

@@ -33,10 +33,18 @@ const FormLogin = ({ onRegisterClick }: LoginFormProps) => {
                 data,
                 requestOptions
             );
+
             localStorage.setItem("token", response.data.accessToken);
+
+            console.log(
+                "🚀 ~ file: FormLogin.tsx:37 ~ handleSubmit ~ response",
+                response
+            );
             setLoading(false);
             Router.push("/home");
         } catch (error) {
+            alert("Email ou senha incorretos!");
+            setLoading(false);
             console.log("error", error);
         }
     };

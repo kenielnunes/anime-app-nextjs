@@ -109,8 +109,14 @@ const App = () => {
         }
 
         const token: any = tokenJWT;
-        const payload = getPayloadFromToken(token);
-        console.log(payload);
+        const payload: any = getPayloadFromToken(token);
+        console.log("🚀 ~ file: index.tsx:113 ~ useEffect ~ payload", payload);
+        localStorage.setItem("userId", payload.sub);
+        const storageId = localStorage.getItem("userId");
+        console.log(
+            "🚀 ~ file: index.tsx:115 ~ useEffect ~ storageId",
+            storageId
+        );
     }, []);
 
     const [loading, setLoading] = useState(false);

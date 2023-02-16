@@ -66,7 +66,7 @@ export async function getStaticProps({ params }: any) {
 
 export default function Post({ epsData, animeInfo }: any) {
     const [stream, setStream] = useState("");
-    // const [videoId, setVideoId] = useState("");
+    const [idUser, setIdUser] = useState("");
 
     const urlImage = "https://cdn.appanimeplus.tk/img/";
 
@@ -107,6 +107,11 @@ export default function Post({ epsData, animeInfo }: any) {
     );
 
     const [idVideoAtual, setVideoIdAtual] = useState("");
+
+    useEffect(() => {
+        const storageId: any = localStorage.getItem("userId");
+        setIdUser(storageId);
+    }, []);
 
     function getVideo(idVideo: any) {
         fetch(`https://appanimeplus.tk/play-api.php?episodios=${idVideo}`)
@@ -218,7 +223,7 @@ export default function Post({ epsData, animeInfo }: any) {
                                                           {episodio.title}
                                                       </div>
                                                       <div className="flex gap-6">
-                                                          {/* <PrimaryButton
+                                                          <PrimaryButton
                                                               hexadecimalColor="0B0B29"
                                                               dataBsTarget={`#${convertStringToSlug(
                                                                   episodio.title
@@ -234,7 +239,7 @@ export default function Post({ epsData, animeInfo }: any) {
                                                               )
                                                                   ? "Visto"
                                                                   : "Marcar como visto"}
-                                                          </PrimaryButton> */}
+                                                          </PrimaryButton>
                                                           <PrimaryButton
                                                               hexadecimalColor="FF4655"
                                                               dataBsTarget={`#${convertStringToSlug(
