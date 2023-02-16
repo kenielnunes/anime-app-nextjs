@@ -67,6 +67,39 @@ export async function getStaticProps({ params }: any) {
 export default function Post({ epsData, animeInfo }: any) {
     const [stream, setStream] = useState("");
     const [idUser, setIdUser] = useState("");
+    const [epsAssistidos, setEpsAssistidos] = useState([]);
+    console.log(
+        "🚀 ~ file: [animeId].tsx:71 ~ Post ~ epsAssistidos",
+        epsAssistidos
+    );
+
+    useEffect(() => {
+        const storageId: any = localStorage.getItem("userId");
+        setIdUser(storageId);
+        const token = localStorage.getItem("token");
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions: any = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow",
+        };
+
+        fetch(
+            `https://api-project-vdlx.onrender.com/watched-videos/user/${storageId}`,
+            requestOptions
+        )
+            .then((response) => response.json())
+            .then((result) => setEpsAssistidos(result.data))
+            .catch((error) => console.log("error", error));
+
+        epsAssistidos.find((videoId) => {
+            videoId.videoId == 422185
+                ? console.log("achou")
+                : console.log("achou nada");
+        });
+    }, []);
 
     const urlImage = "https://cdn.appanimeplus.tk/img/";
 
@@ -108,11 +141,6 @@ export default function Post({ epsData, animeInfo }: any) {
 
     const [idVideoAtual, setVideoIdAtual] = useState("");
 
-    useEffect(() => {
-        const storageId: any = localStorage.getItem("userId");
-        setIdUser(storageId);
-    }, []);
-
     function getVideo(idVideo: any) {
         fetch(`https://appanimeplus.tk/play-api.php?episodios=${idVideo}`)
             .then((response) => response.json())
@@ -122,6 +150,33 @@ export default function Post({ epsData, animeInfo }: any) {
                     ? setStream(result[0].location)
                     : setStream(result[0].locationsd);
             })
+            .catch((error) => console.log("error", error));
+    }
+
+    function setEpisodioAssistido(videoId: number) {
+        const token = localStorage.getItem("token");
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            videoId: videoId,
+            userId: idUser,
+        });
+
+        var requestOptions: any = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+        };
+
+        fetch(
+            "https://api-project-vdlx.onrender.com/watched-videos/",
+            requestOptions
+        )
+            .then((response) => response.json())
+            .then((result) => console.log(result))
             .catch((error) => console.log("error", error));
     }
 
@@ -228,17 +283,24 @@ export default function Post({ epsData, animeInfo }: any) {
                                                               dataBsTarget={`#${convertStringToSlug(
                                                                   episodio.title
                                                               )}`}
-                                                              onClick={() =>
-                                                                  handleClick(
+                                                              onClick={() => {
+                                                                  console.log(
                                                                       episodio.video_id
-                                                                  )
-                                                              }
+                                                                  );
+                                                                  setEpisodioAssistido(
+                                                                      Number(
+                                                                          episodio.video_id
+                                                                      )
+                                                                  );
+                                                              }}
                                                           >
-                                                              {myArray.includes(
-                                                                  episodio.video_id
-                                                              )
-                                                                  ? "Visto"
-                                                                  : "Marcar como visto"}
+                                                              {epsAssistidos.some(
+                                                                  (ep) =>
+                                                                      ep.videoId ===
+                                                                      episodio.video_id
+                                                                          ? "Visto"
+                                                                          : "Não visto"
+                                                              )}
                                                           </PrimaryButton>
                                                           <PrimaryButton
                                                               hexadecimalColor="FF4655"
