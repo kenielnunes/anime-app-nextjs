@@ -210,33 +210,13 @@ export default function Post({ epsData, animeInfo }: any) {
             .catch((error) => console.log("error", error));
     }
 
-    const [epAssistido, setEpAssistido] = useState<any>([]);
-    const [arrayEpsAssistido, setArrayEpsAssistido] = useState<any>([]);
-
-    interface MyArrayItem {
-        value: string;
-    }
-
-    let array: any = Cookies.get("epsAssistidos");
-    if (array) {
-        array = JSON.parse(array);
-    } else {
-        array = [];
-    }
-    const [myArray, setMyArray] = useState<MyArrayItem[]>(array);
-
-    const handleClick = (idEpisodio: any) => {
-        setMyArray([...myArray, idEpisodio]);
-        Cookies.set("epsAssistidos", JSON.stringify(myArray));
-    };
-
     return (
         <>
             <Head>
                 <title>{animeInfo[0].category_name}</title>
             </Head>
             <div
-                className={`bg-[#131219] text-white ${
+                className={` text-white ${
                     filteredEps.length <= 3 ? "h-full" : "a"
                 }`}
             >
@@ -263,7 +243,7 @@ export default function Post({ epsData, animeInfo }: any) {
                             <div className="text-black pb-10">
                                 <input
                                     onChange={(e) => setSearch(e.target.value)}
-                                    className="w-full p-3"
+                                    className="w-full p-3 rounded-sm"
                                     type="text"
                                     placeholder="Pesquisar por episódio..."
                                 />
