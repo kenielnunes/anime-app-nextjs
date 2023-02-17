@@ -9,7 +9,11 @@ export default createGlobalStyle`
         scroll-behavior: smooth;
     }
     body {
-        background-color: #0B0B29;
+        background-image: url("/background.jpg");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        /* background-color: #0B0B29; */
         color: #fff
     }
     .swiper {

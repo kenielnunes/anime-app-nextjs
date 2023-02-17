@@ -91,14 +91,14 @@ export default function Post({ epsData, animeInfo }: any) {
             requestOptions
         )
             .then((response) => response.json())
-            .then((result) => setEpsAssistidos(result.data))
+            .then((result) => {
+                console.log(
+                    "🚀 ~ file: [animeId].tsx:95 ~ .then ~ result",
+                    result
+                );
+                setEpsAssistidos(result.data);
+            })
             .catch((error) => console.log("error", error));
-
-        epsAssistidos.find((videoId) => {
-            videoId.videoId == 422185
-                ? console.log("achou")
-                : console.log("achou nada");
-        });
     }, []);
 
     const urlImage = "https://cdn.appanimeplus.tk/img/";
@@ -294,13 +294,7 @@ export default function Post({ epsData, animeInfo }: any) {
                                                                   );
                                                               }}
                                                           >
-                                                              {epsAssistidos.some(
-                                                                  (ep) =>
-                                                                      ep.videoId ===
-                                                                      episodio.video_id
-                                                                          ? "Visto"
-                                                                          : "Não visto"
-                                                              )}
+                                                              Oi
                                                           </PrimaryButton>
                                                           <PrimaryButton
                                                               hexadecimalColor="FF4655"
