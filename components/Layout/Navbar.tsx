@@ -1,164 +1,146 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Menu, Transition } from "@headlessui/react";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
 
-export default function Example() {
-    const categorias = [
-        "aventura",
-        "acao",
-        "comedia",
-        "drama",
-        "dublado",
-        "ecchi",
-        "escolar",
-        "esporte",
-        "fantasia",
-        "filme",
-        "harem",
-        "historico",
-        "jogo",
-        "josei",
-        "magia",
-        "mecha",
-        "militar",
-        "misterio",
-        "ova",
-        "poderes",
-        "psicologico",
-        "romance",
-        "samurai",
-        "sci-fi",
-        "seinen",
-        "shoujo",
-        "shounen",
-        "slice_of_life",
-        "sobrenatural",
-        "suspense",
-        "terror",
-        "yaoi",
-        "yuri",
-    ];
+type Anchor = "top" | "left" | "bottom" | "Menu";
 
-    useEffect(() => {
-        // const fetchWeather = async () => {
-        //     // begin the asynchronous operations
-        //     const promises = categorias.map((item) => {
-        //         fetch(`https://appanimeplus.tk/play-api.php?categoria=${item}`)
-        //             .then((response) => response.json())
-        //             .then((result) => {
-        //                 return result;
-        //             });
-        //     });
-        //     const results = await Promise.all(promises);
-        //     console.log(
-        //         "🚀 ~ file: Navbar.tsx:55 ~ fetchWeather ~ results",
-        //         results
-        //     );
-        //     // update state with the results
-        //     return results;
-        // };
-        // fetchWeather();
-        // const request = categorias.map((item) => {
-        //     fetch(`https://appanimeplus.tk/play-api.php?categoria=${item}`)
-        //         .then((response) => response.json())
-        //         .then((result) => {
-        //             return result;
-        //         });
-        // });
-        // console.log("🚀 ~ file: Navbar.tsx:56 ~ request ~ request", request);
-        // const paths = request.map((anime: any) => {
-        //     const urlPaths = {
-        //         params: { categoria: String(anime) },
-        //     };
-        //     return urlPaths;
-        // });
-        // console.log("🚀 ~ file: Navbar.tsx:62 ~ paths ~ paths", paths);
-    }, []);
+export function NavBar() {
+    const [state, setState] = React.useState({
+        Menu: false,
+    });
+
+    const toggleDrawer =
+        (anchor: Anchor, open: boolean) =>
+        (event: React.KeyboardEvent | React.MouseEvent) => {
+            if (
+                event.type === "keydown" &&
+                ((event as React.KeyboardEvent).key === "Tab" ||
+                    (event as React.KeyboardEvent).key === "Shift")
+            ) {
+                return;
+            }
+
+            setState({ ...state, [anchor]: open });
+        };
+
+    const list = (anchor: Anchor) => (
+        <Box
+            sx={{
+                width: anchor === "top" || anchor === "bottom" ? "auto" : 250,
+            }}
+            className="bg-red-500 h-screen text-white"
+            role="presentation"
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <List>
+                {["Favoritos"].map((text, index) => {
+                    return (
+                        <div key={index}>
+                            <Link href="/favoritos">
+                                <ListItem key={text} disablePadding>
+                                    <ListItemButton>
+                                        <ListItemIcon>
+                                            <FavoriteIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary={text} />
+                                    </ListItemButton>
+                                </ListItem>
+                            </Link>
+                        </div>
+                    );
+                })}
+            </List>
+        </Box>
+    );
 
     return (
-        <></>
-        // <div className="bg-[#0B0B29]">
-        //     <nav className="flex px-4 border-b md:shadow-lg items-center relative">
-        //         <div className="text-lg font-bold md:py-0 py-4">Logo</div>
-        //         <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
-        //             <li>
-        //                 <a
-        //                     href="#"
-        //                     className="flex md:inline-flex p-4 items-center hover:bg-gray-50"
-        //                 >
-        //                     <span>Home</span>
-        //                 </a>
-        //             </li>
-        //             <li>
-        //                 <a
-        //                     href="#"
-        //                     className="flex md:inline-flex p-4 items-center hover:bg-gray-50"
-        //                 >
-        //                     <span>Products</span>
-        //                 </a>
-        //             </li>
-        //             <li className="relative parent">
-        //                 <a
-        //                     href="#"
-        //                     className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-50 space-x-2"
-        //                 >
-        //                     <span>Service</span>
-        //                     <svg
-        //                         xmlns="http://www.w3.org/2000/svg"
-        //                         className="w-4 h-4 fill-current pt-1"
-        //                         viewBox="0 0 24 24"
-        //                     >
-        //                         <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
-        //                     </svg>
-        //                 </a>
-        //                 <ul className="child transition duration-300 md:absolute top-full right-0 md:w-48 bg-[#0B0B29] md:shadow-lg md:rounded-b ">
-        //                     <li>
-        //                         <a
-        //                             href="#"
-        //                             className="flex px-4 py-3 hover:bg-[#0B0B29]"
-        //                         >
-        //                             Web development
-        //                         </a>
-        //                     </li>
-        //                     <li>
-        //                         <a
-        //                             href="#"
-        //                             className="flex px-4 py-3 hover:bg-[#0B0B29]"
-        //                         >
-        //                             Web Design
-        //                         </a>
-        //                     </li>
-        //                     <li>
-        //                         <a
-        //                             href="#"
-        //                             className="flex px-4 py-3 hover:bg-[#0B0B29]"
-        //                         >
-        //                             Machine Learning
-        //                         </a>
-        //                     </li>
-        //                 </ul>
-        //             </li>
-        //             <li>
-        //                 <a
-        //                     href="#"
-        //                     className="flex md:inline-flex p-4 items-center hover:bg-gray-50"
-        //                 >
-        //                     <span>About us</span>
-        //                 </a>
-        //             </li>
-        //         </ul>
-        //         <div className="ml-auto md:hidden text-gray-500 cursor-pointer">
-        //             <svg
-        //                 xmlns="http://www.w3.org/2000/svg"
-        //                 className="w-5 h-5 fill-current"
-        //                 viewBox="0 0 24 24"
-        //             >
-        //                 <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
-        //             </svg>
-        //         </div>
-        //     </nav>
-        // </div>
+        <nav
+            className=" relative w-full flex flex-wrap items-center justify-between py-4 bg-transparent text-white  shadow-lg navbar navbar-expand-lg navbar-light
+  "
+        >
+            <div className="container-fluid w-full flex flex-wrap items-center justify-between px-6">
+                <button
+                    className=" navbar-toggler text-white border-0 hover:shadow-none hover:no-underline py-2 px-2.5 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none focus:no-underline
+    "
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        data-prefix="fas"
+                        data-icon="bars"
+                        className="w-6"
+                        role="img"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"
+                    >
+                        <path
+                            fill="currentColor"
+                            d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
+                        ></path>
+                    </svg>
+                </button>
+                <div
+                    className="collapse navbar-collapse flex-grow items-center"
+                    id="navbarSupportedContent"
+                >
+                    <a
+                        className=" flex items-center text-white hover:text-white focus:text-white mt-2 lg:mt-0 mr-1
+      "
+                        href="#"
+                    >
+                        <img className="h-4" alt="logo" loading="lazy" />
+                    </a>
+                    <ul className="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
+                        <li className="nav-item p-2">
+                            <a
+                                className="nav-link text-white hover:text-white focus:text-white p-0"
+                                href="#"
+                            >
+                                Github
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div className="flex items-center relative">
+                    {(["Menu"] as const).map((anchor) => (
+                        <React.Fragment key={anchor}>
+                            <Button
+                                sx={{ color: "white", fontWeight: "bold" }}
+                                onClick={toggleDrawer(anchor, true)}
+                            >
+                                {anchor}
+                            </Button>
+                            <Drawer
+                                anchor={"right"}
+                                open={state[anchor]}
+                                onClose={toggleDrawer(anchor, false)}
+                            >
+                                {list(anchor)}
+                            </Drawer>
+                        </React.Fragment>
+                    ))}
+                </div>
+            </div>
+        </nav>
     );
 }

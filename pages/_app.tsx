@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import jwt_decode from "jwt-decode";
 import LoginForm from "./login";
+import { NavBar } from "../components/Layout/Navbar";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     const router = useRouter();
@@ -60,6 +61,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 
     return (
         <ThemeProvider theme={theme}>
+            <NavBar />
             <Component {...pageProps} />
             <GlobalStyle />
         </ThemeProvider>

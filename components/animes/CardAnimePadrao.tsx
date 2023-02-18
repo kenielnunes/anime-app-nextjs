@@ -11,7 +11,7 @@ export default function CardAnimePadrao({ link, imageSrc, id, name }: Prop) {
     return (
         <div>
             <a
-                href={link}
+                href={`/anime/${link}`}
                 style={{
                     backgroundImage: `url(
                                           ${imageSrc}

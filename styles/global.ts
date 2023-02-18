@@ -7,6 +7,7 @@ export default createGlobalStyle`
         box-sizing: border-box;
         font-family: 'Montserrat', sans-serif;
         scroll-behavior: smooth;
+
     }
     body {
         background-image: url("/background.jpg");
@@ -14,12 +15,32 @@ export default createGlobalStyle`
         background-size: cover;
         background-repeat: no-repeat;
         /* background-color: #0B0B29; */
-        color: #fff
+        color: #fff;
+
+
     }
     .swiper {
         width: 90%;
         height: 100%;
-}
+    }
+
+    *::-webkit-scrollbar {
+        width: 13px;
+    }
+
+    *::-webkit-scrollbar-track {
+    background: #5E0D13;
+    }
+
+    *::-webkit-scrollbar-thumb {
+
+
+    background-color: #FF463D;
+    border-radius: 20px;
+    border: 2px solid #5E0D13;
+    }
+
+
 
 .primaryButton {
     /* font-family: 'Valorant', sans-serif; */
@@ -446,6 +467,7 @@ export default createGlobalStyle`
 .textInputWrapper:focus-within .textInput::placeholder {
   opacity: 0;
 }
+
 
 
 `;

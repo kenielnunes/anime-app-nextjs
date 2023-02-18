@@ -8,21 +8,9 @@ import InfoAnime from "../../components/InfoAnime";
 import ModalEps from "../../components/ModalEps";
 import { useCookies } from "react-cookie";
 import Cookies from "js-cookie";
+import { convertStringToSlug } from "../../utils/formatStrings";
 
 export async function getStaticPaths() {
-    // CORRETO COM TODOS ANIMES
-    // const request = await fetch(`https://appanimeplus.tk/play-api.php?search`);
-
-    // const data = await request.json();
-
-    // const paths = data.map((anime: any) => {
-    //     const urlPaths = {
-    //         params: { animeId: anime?.id },
-    //     };
-
-    //     return urlPaths;
-    // });
-
     const request = await fetch(
         `https://appanimeplus.tk/play-api.php?populares`
     );
@@ -67,11 +55,19 @@ export async function getStaticProps({ params }: any) {
 export default function Post({ epsData, animeInfo }: any) {
     const [stream, setStream] = useState("");
     const [idUser, setIdUser] = useState("");
-    const [epsAssistidos, setEpsAssistidos] = useState([]);
-    console.log(
-        "🚀 ~ file: [animeId].tsx:71 ~ Post ~ epsAssistidos",
-        epsAssistidos
-    );
+    const [epsAssistidos, setEpsAssistidos] = useState<any>([]);
+
+    const existeId = (ep: string) => {
+        const existe = epsAssistidos.some(
+            (episodioAssistido: { videoId: string }) =>
+                episodioAssistido.videoId == ep
+        );
+        if (existe) {
+            return "Visto";
+        } else {
+            return "Marcar como visto";
+        }
+    };
 
     useEffect(() => {
         const storageId: any = localStorage.getItem("userId");
@@ -102,28 +98,6 @@ export default function Post({ epsData, animeInfo }: any) {
     }, []);
 
     const urlImage = "https://cdn.appanimeplus.tk/img/";
-
-    function convertStringToSlug(string: string) {
-        string = string.replace(/^\s+|\s+$/g, "");
-        string = string.toLowerCase();
-
-        const from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
-        const to = "aaaaeeeeiiiioooouuuunc------";
-
-        for (let i = 0, l = from.length; i < l; i++) {
-            string = string.replace(
-                new RegExp(from.charAt(i), "g"),
-                to.charAt(i)
-            );
-        }
-
-        string = string
-            .replace(/[^a-z0-9 -]/g, "")
-            .replace(/\s+/g, "-")
-            .replace(/-+/g, "-");
-
-        return string;
-    }
 
     const categories = animeInfo[0].category_genres.split(",");
 
@@ -176,7 +150,10 @@ export default function Post({ epsData, animeInfo }: any) {
             requestOptions
         )
             .then((response) => response.json())
-            .then((result) => console.log(result))
+            .then((result) => {
+                setEpsAssistidos([...epsAssistidos, result.data]);
+                console.log(result);
+            })
             .catch((error) => console.log("error", error));
     }
 
@@ -274,7 +251,9 @@ export default function Post({ epsData, animeInfo }: any) {
                                                                   );
                                                               }}
                                                           >
-                                                              Oi
+                                                              {existeId(
+                                                                  episodio.video_id
+                                                              )}
                                                           </PrimaryButton>
                                                           <PrimaryButton
                                                               hexadecimalColor="FF4655"

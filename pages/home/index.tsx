@@ -18,7 +18,7 @@ import "@splidejs/react-splide/css/core";
 import { PrimaryButton } from "../../components/buttons/PrimaryButton";
 import { BoxRecentAnime } from "../../components/BoxRecentAnimes";
 import Link from "next/link";
-import Navbar from "../../components/Layout/Navbar";
+import { NavBar } from "../../components/Layout/Navbar";
 import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
 import InputPadrão from "../../components/inputs/InputPadrao";
 import jwt from "jsonwebtoken";
@@ -113,10 +113,6 @@ const App = () => {
         console.log("🚀 ~ file: index.tsx:113 ~ useEffect ~ payload", payload);
         localStorage.setItem("userId", payload.sub);
         const storageId = localStorage.getItem("userId");
-        console.log(
-            "🚀 ~ file: index.tsx:115 ~ useEffect ~ storageId",
-            storageId
-        );
     }, []);
 
     const [loading, setLoading] = useState(false);
@@ -440,7 +436,6 @@ const App = () => {
             <Head>
                 <title>Anime App</title>
             </Head>
-            <Navbar />
             <Content />
         </>
     );

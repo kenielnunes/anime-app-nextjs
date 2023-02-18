@@ -24,7 +24,7 @@ export default function ModalEps({
             <div className="flex  flex-wrap gap-4">
                 <div
                     style={{
-                        backgroundImage: 'url("/backgroundModal.jpg")',
+                        backgroundImage: 'url("/backgroundModal3.png")',
                         backgroundSize: "cover",
                         backgroundPosition: "center",
                     }}
