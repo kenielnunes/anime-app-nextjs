@@ -224,7 +224,7 @@ const App = () => {
                 length = 14;
                 break;
             default:
-                length = 16;
+                length = 2;
         }
 
         interface User {
@@ -237,45 +237,48 @@ const App = () => {
             <div className="flex mx-auto overflow-x-hidden flex-col">
                 <div className="flex w-screen">
                     <BoxRecentAnime>
-                        {recentAnimeData.slice(0, length).map((data: any) => {
-                            return (
-                                <>
-                                    <p
-                                        className="group h-full"
-                                        style={{
-                                            backgroundImage: `url(
+                        {recentAnimeData
+                            .slice(0, length)
+                            .map((data: any, index) => {
+                                return (
+                                    <>
+                                        <p
+                                            key={index}
+                                            className="group h-full"
+                                            style={{
+                                                backgroundImage: `url(
                                           ${urlImage}${data.category_image}
                                       )`,
-                                            backgroundRepeat: "no-repeat",
-                                            backgroundPosition: "center",
-                                            backgroundSize: "cover",
-                                        }}
-                                    >
-                                        <span className="h-full duration-500">
-                                            {/* <img
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundPosition: "center",
+                                                backgroundSize: "cover",
+                                            }}
+                                        >
+                                            <span className="h-full duration-500">
+                                                {/* <img
                                                 className="w-full "
                                                 src={`${urlImage}${data.category_image}`}
                                                 alt=""
                                             /> */}
-                                            <div className="hidden justify-end  bg-black w-full h-full bg-opacity-50 group-hover:flex-col gap-4 group-hover:flex duration-500 p-4">
-                                                <div className="cursor-default">
-                                                    {data.title}
+                                                <div className="hidden justify-end  bg-black w-full h-full bg-opacity-50 group-hover:flex-col gap-4 group-hover:flex duration-500 p-4">
+                                                    <div className="cursor-default">
+                                                        {data.title}
+                                                    </div>
+                                                    <div className="flex justify-center">
+                                                        <Link
+                                                            href={`episodio/${data.video_id}`}
+                                                        >
+                                                            <PrimaryButton hexadecimalColor="FF4655">
+                                                                ASSISTIR
+                                                            </PrimaryButton>
+                                                        </Link>
+                                                    </div>
                                                 </div>
-                                                <div className="flex justify-center">
-                                                    <Link
-                                                        href={`episodio/${data.video_id}`}
-                                                    >
-                                                        <PrimaryButton hexadecimalColor="FF4655">
-                                                            ASSISTIR
-                                                        </PrimaryButton>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </span>
-                                    </p>
-                                </>
-                            );
-                        })}
+                                            </span>
+                                        </p>
+                                    </>
+                                );
+                            })}
                     </BoxRecentAnime>
                 </div>
 
