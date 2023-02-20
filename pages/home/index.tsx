@@ -26,15 +26,11 @@ import jwt from "jsonwebtoken";
 const App = () => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
     const [popularAnimeData, setPopularAnimeData] = useState<any>([]);
-    const [width, setWidth] = useState<any>();
+    const [width, setWidth] = useState<number>(0);
 
     useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+        setWidth(window.innerWidth);
+    }, [width]);
 
     function getLatest() {
         fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
@@ -224,7 +220,7 @@ const App = () => {
                 length = 14;
                 break;
             default:
-                length = 2;
+                length = 16;
         }
 
         interface User {
