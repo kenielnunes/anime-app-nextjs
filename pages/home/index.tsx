@@ -278,7 +278,7 @@ const App = () => {
                     </BoxRecentAnime>
                 </div>
 
-                <div className="pt-10 flex w-1/2 mx-auto">
+                <div className="py-10 flex w-1/2 mx-auto">
                     <InputPadrão
                         onChange={(e) => setSearchAnime(e.target.value)}
                         placeholder="Pesquisar..."

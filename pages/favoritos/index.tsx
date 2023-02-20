@@ -70,7 +70,7 @@ export default function Favoritos() {
                 <div className="text-white pb-6 text-xl font-bold">
                     Favoritos
                 </div>
-                <div className="flex text-white overflow-auto items-center justify-center max-h-[1400px] gap-4 flex-wrap">
+                <div className="flex text-white overflow-auto justify-center lg:justify-start h-screen gap-4 flex-wrap">
                     {loading ? (
                         <Skeleton
                             sx={{ width: "100%", height: "240px" }}
