@@ -127,17 +127,32 @@ export default function InfoAnime({
                 <button
                     disabled={isSubmitting}
                     onClick={() => setFavorite(idAnime, verificaUuID(idAnime))}
-                    className="lg:w-1/2 xl:w-1/3"
+                    className="flex gap-2 items-center"
                 >
-                    <Heart
-                        status={
-                            existeId(idAnime) == "Adicionar aos favoritos"
-                                ? false
-                                : true
-                        }
+                    {existeId(idAnime)}
+                    <svg
+                        width="30px"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
                     >
-                        {existeId(idAnime)}
-                    </Heart>
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g
+                            id="SVGRepo_tracerCarrier"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M12.39 20.87a.696.696 0 0 1-.78 0C9.764 19.637 2 14.15 2 8.973c0-6.68 7.85-7.75 10-3.25 2.15-4.5 10-3.43 10 3.25 0 5.178-7.764 10.664-9.61 11.895z"
+                                fill={`${
+                                    existeId(idAnime) == "Remover dos favoritos"
+                                        ? "#fd0000"
+                                        : "#d1d1d1"
+                                }`}
+                            ></path>
+                        </g>
+                    </svg>
                 </button>
 
                 <div className="max-h-52 overflow-y-auto">{sinopse}</div>
