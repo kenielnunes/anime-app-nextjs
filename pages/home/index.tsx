@@ -239,7 +239,7 @@ const App = () => {
                     <BoxRecentAnime>
                         {recentAnimeData
                             .slice(0, length)
-                            .map((data: any, index) => {
+                            .map((data: any, index: number) => {
                                 return (
                                     <>
                                         <p
