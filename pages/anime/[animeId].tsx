@@ -52,7 +52,7 @@ export async function getStaticProps({ params }: any) {
     };
 }
 
-export default function Post({ epsData, animeInfo }: any) {
+export default function Anime({ epsData, animeInfo }: any) {
     const [stream, setStream] = useState("");
     const [idUser, setIdUser] = useState("");
     const [epsAssistidos, setEpsAssistidos] = useState<any>([]);
@@ -60,7 +60,7 @@ export default function Post({ epsData, animeInfo }: any) {
     const existeId = (ep: string) => {
         const existe = epsAssistidos.some(
             (episodioAssistido: { videoId: string }) =>
-                episodioAssistido.videoId == ep
+                episodioAssistido?.videoId == ep
         );
         if (existe) {
             return "Visto";
@@ -68,6 +68,13 @@ export default function Post({ epsData, animeInfo }: any) {
             return "Marcar como visto";
         }
     };
+
+    function verificaUuID(id: number) {
+        const video = epsAssistidos.find(
+            (x: { videoId: number }) => x?.videoId == id
+        );
+        return video?.id;
+    }
 
     useEffect(() => {
         const storageId: any = localStorage.getItem("userId");
@@ -88,10 +95,6 @@ export default function Post({ epsData, animeInfo }: any) {
         )
             .then((response) => response.json())
             .then((result) => {
-                console.log(
-                    "🚀 ~ file: [animeId].tsx:95 ~ .then ~ result",
-                    result
-                );
                 setEpsAssistidos(result.data);
             })
             .catch((error) => console.log("error", error));
@@ -104,11 +107,12 @@ export default function Post({ epsData, animeInfo }: any) {
     const formatedCategories = categories.map(
         (category: string, index: number) => {
             return (
-                <>
-                    <div className="border px-2 py-1 rounded-md cursor-default">
-                        {category}
-                    </div>
-                </>
+                <div
+                    key={index}
+                    className="border px-2 py-1 rounded-md cursor-default"
+                >
+                    {category}
+                </div>
             );
         }
     );
@@ -127,7 +131,7 @@ export default function Post({ epsData, animeInfo }: any) {
             .catch((error) => console.log("error", error));
     }
 
-    function setEpisodioAssistido(videoId: number) {
+    function setEpisodioAssistido(videoId: number, uuId: string) {
         const token = localStorage.getItem("token");
         var myHeaders = new Headers();
         myHeaders.append("Authorization", `Bearer ${token}`);
@@ -138,23 +142,42 @@ export default function Post({ epsData, animeInfo }: any) {
             userId: idUser,
         });
 
-        var requestOptions: any = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow",
-        };
-
-        fetch(
-            "https://api-project-vdlx.onrender.com/watched-videos/",
-            requestOptions
-        )
-            .then((response) => response.json())
-            .then((result) => {
-                setEpsAssistidos([...epsAssistidos, result.data]);
-                console.log(result);
-            })
-            .catch((error) => console.log("error", error));
+        if (existeId(String(videoId)) === "Visto") {
+            const requestOptions: any = {
+                method: "DELETE",
+                headers: myHeaders,
+                redirect: "follow",
+            };
+            fetch(
+                `https://api-project-vdlx.onrender.com/watched-videos/${uuId}`,
+                requestOptions
+            )
+                .then((response) => response.json())
+                .then((result) => {
+                    setEpsAssistidos(
+                        epsAssistidos.filter(
+                            (ep: { id: string }) => ep.id !== uuId
+                        )
+                    );
+                })
+                .catch((error) => console.log("error", error));
+        } else {
+            const requestOptions: any = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow",
+            };
+            fetch(
+                "https://api-project-vdlx.onrender.com/watched-videos/",
+                requestOptions
+            )
+                .then((response) => response.json())
+                .then((result) => {
+                    setEpsAssistidos([...epsAssistidos, result.data]);
+                })
+                .catch((error) => console.log("error", error));
+        }
     }
 
     const [filteredEps, setFilteredEps] = useState([]);
@@ -174,10 +197,6 @@ export default function Post({ epsData, animeInfo }: any) {
         )
             .then((response) => response.json())
             .then((result) => {
-                // console.log(
-                //     "🚀 ~ file: [animeId].tsx:128 ~ .then ~ result",
-                //     result
-                // );
                 setDataSelectedEp(result[0]);
                 setVideoIdAtual(result[0].video_id);
                 result[0].locationsd == ""
@@ -193,7 +212,7 @@ export default function Post({ epsData, animeInfo }: any) {
                 <title>{animeInfo[0].category_name}</title>
             </Head>
             <div
-                className={` text-white ${
+                className={`text-white ${
                     filteredEps.length <= 3 ? "h-full" : "a"
                 }`}
             >
@@ -208,6 +227,7 @@ export default function Post({ epsData, animeInfo }: any) {
                             </Link>
                         </div>
                         <InfoAnime
+                            idAnime={animeInfo[0].id}
                             title={animeInfo[0].category_name}
                             year={animeInfo[0].ano}
                             quality={"HD"}
@@ -225,110 +245,77 @@ export default function Post({ epsData, animeInfo }: any) {
                                     placeholder="Pesquisar por episódio..."
                                 />
                             </div>
-                            <div className="max-h-[500px] flex flex-col-reverse overflow-y-auto divide-y-2 ">
+                            <div className="max-h-[500px]  flex flex-col-reverse overflow-y-auto divide-y-2 ">
                                 {filteredEps.length > 0
-                                    ? filteredEps.map((episodio: any) => {
-                                          return (
-                                              <>
-                                                  <div className="flex justify-between items-center font-semibold py-4 px-2">
-                                                      <div className="">
-                                                          {episodio.title}
-                                                      </div>
-                                                      <div className="flex gap-6">
-                                                          <PrimaryButton
-                                                              hexadecimalColor="0B0B29"
-                                                              dataBsTarget={`#${convertStringToSlug(
-                                                                  episodio.title
-                                                              )}`}
-                                                              onClick={() => {
-                                                                  console.log(
-                                                                      episodio.video_id
-                                                                  );
-                                                                  setEpisodioAssistido(
-                                                                      Number(
-                                                                          episodio.video_id
-                                                                      )
-                                                                  );
-                                                              }}
-                                                          >
-                                                              {existeId(
-                                                                  episodio.video_id
-                                                              )}
-                                                          </PrimaryButton>
-                                                          <PrimaryButton
-                                                              hexadecimalColor="FF4655"
-                                                              dataBsTarget={`#${convertStringToSlug(
-                                                                  episodio.title
-                                                              )}`}
-                                                              dataBsToggle="modal"
-                                                              onClick={() => {
-                                                                  getVideo(
-                                                                      episodio.video_id
-                                                                  );
-                                                              }}
-                                                          >
-                                                              Assistir
-                                                          </PrimaryButton>
-                                                      </div>
-                                                  </div>
-                                                  <ModalEps
-                                                      srcVideo={stream}
-                                                      idModal={convertStringToSlug(
-                                                          episodio.title
-                                                      )}
-                                                      closeStream={() =>
-                                                          setStream("")
-                                                      }
-                                                      epTitle={episodio.title}
-                                                      setBeforeEp={""}
-                                                      setNextEp={() =>
-                                                          setNextEp()
-                                                      }
-                                                  />
-                                              </>
-                                          );
-                                      })
-                                    : epsData.map((episodio: any) => {
-                                          return (
-                                              <>
-                                                  <div className="flex justify-between items-center font-semibold py-4 px-2">
-                                                      <div className="">
-                                                          {episodio.title}
-                                                      </div>
-                                                      <div className="flex gap-6">
-                                                          <div className="button-borders">
-                                                              <button
-                                                                  data-bs-toggle="modal"
-                                                                  data-bs-target={`#${convertStringToSlug(
+                                    ? filteredEps.map(
+                                          (episodio: any, index) => {
+                                              return (
+                                                  <>
+                                                      <div
+                                                          key={index}
+                                                          className="flex  flex-col gap-4 md:flex-row justify-between items-center font-semibold py-4 px-2"
+                                                      >
+                                                          <div>
+                                                              {episodio.title}
+                                                          </div>
+                                                          <div className="flex  flex-col md:flex-row gap-6">
+                                                              <PrimaryButton
+                                                                  hexadecimalColor="0B0B29"
+                                                                  dataBsTarget={`#${convertStringToSlug(
                                                                       episodio.title
                                                                   )}`}
+                                                                  onClick={() => {
+                                                                      setEpisodioAssistido(
+                                                                          Number(
+                                                                              episodio.video_id
+                                                                          ),
+                                                                          verificaUuID(
+                                                                              episodio.video_id
+                                                                          )
+                                                                      );
+                                                                  }}
+                                                              >
+                                                                  {existeId(
+                                                                      episodio.video_id
+                                                                  )}
+                                                              </PrimaryButton>
+                                                              <PrimaryButton
+                                                                  hexadecimalColor="FF4655"
+                                                                  dataBsTarget={`#${convertStringToSlug(
+                                                                      episodio.title
+                                                                  )}`}
+                                                                  dataBsToggle="modal"
                                                                   onClick={() => {
                                                                       getVideo(
                                                                           episodio.video_id
                                                                       );
                                                                   }}
-                                                                  className="primaryButton"
                                                               >
                                                                   Assistir
-                                                              </button>
+                                                              </PrimaryButton>
                                                           </div>
                                                       </div>
-                                                  </div>
-                                                  <ModalEps
-                                                      srcVideo={stream}
-                                                      idModal={convertStringToSlug(
-                                                          episodio.title
-                                                      )}
-                                                      closeStream={() =>
-                                                          setStream("")
-                                                      }
-                                                      epTitle={episodio.title}
-                                                      setBeforeEp={undefined}
-                                                      setNextEp={undefined}
-                                                  />
-                                              </>
-                                          );
-                                      })}
+                                                      <ModalEps
+                                                          srcVideo={stream}
+                                                          idModal={convertStringToSlug(
+                                                              episodio.title
+                                                          )}
+                                                          closeStream={() =>
+                                                              setStream("")
+                                                          }
+                                                          epTitle={
+                                                              episodio.title
+                                                          }
+                                                          setBeforeEp={""}
+                                                          setNextEp={() =>
+                                                              setNextEp()
+                                                          }
+                                                      />
+                                                  </>
+                                              );
+                                          }
+                                      )
+                                    : "Episódio não encontrado"}
                             </div>
                         </div>
                     </div>

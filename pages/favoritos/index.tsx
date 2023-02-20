@@ -1,3 +1,5 @@
+import { Skeleton } from "@mui/material";
+import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
 import Boxdash from "../../components/Layout/Boxdash";
@@ -5,31 +7,9 @@ import Boxdash from "../../components/Layout/Boxdash";
 export default function Favoritos() {
     const [favoritos, setFavoritos] = useState<any[]>([]);
 
-    const [dadosAnimesFav, setDadosAnimesFav] = useState<any>([]);
-    console.log(
-        "🚀 ~ file: index.tsx:8 ~ Favoritos ~ dadosAnimesFav",
-        dadosAnimesFav
-    );
+    const [loading, setLoading] = useState(false);
 
-    // useEffect(() => {
-    //     favoritos.forEach((anime) => {
-    //         fetch(`https://appanimeplus.tk/play-api.php?info=${anime.videoId}`)
-    //             .then((response) => response.json())
-    //             .then((result) => {
-    //                 if (
-    //                     !dadosAnimesFav.some(
-    //                         (a) => a.animeId === result.animeId
-    //                     )
-    //                 ) {
-    //                     setDadosAnimesFav((prevState: any) => [
-    //                         ...prevState,
-    //                         result,
-    //                     ]);
-    //                 }
-    //             })
-    //             .catch((error) => console.log("error", error));
-    //     });
-    // }, []);
+    const [dadosAnimesFav, setDadosAnimesFav] = useState<any>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,35 +43,56 @@ export default function Favoritos() {
             redirect: "follow",
         };
 
+        setLoading(true);
+
         fetch(
             `https://api-project-vdlx.onrender.com/favorite-videos/user/${storageId}`,
             requestOptions
         )
             .then((response) => response.json())
             .then((result) => {
+                setLoading(false);
                 setFavoritos(result.data);
             })
-            .catch((error) => console.log("error", error));
+            .catch((error) => {
+                setLoading(false);
+                console.log("error", error);
+            });
     }, []);
 
     const urlImage = "https://cdn.appanimeplus.tk/img/";
     return (
-        <div className="h-screen">
-            <Boxdash>
-                <div className="flex gap-4 flex-wrap">
-                    {dadosAnimesFav.map((anime: any) => {
-                        return (
-                            <CardAnimePadrao
-                                key={anime[0].id}
-                                link={anime[0].id}
-                                imageSrc={`${urlImage}${anime[0].category_image}`}
-                                id={anime[0].id}
-                                name={anime[0].category_name}
+        <>
+            <Head>
+                <title>Anime App | Favoritos</title>
+            </Head>
+            <div className="h-screen ">
+                <Boxdash>
+                    <div className="text-white pb-6 text-xl font-bold">
+                        Favoritos
+                    </div>
+                    <div className="flex text-white  gap-4 flex-wrap">
+                        {loading ? (
+                            <Skeleton
+                                sx={{ width: "100%", height: "240px" }}
+                                variant="rectangular"
                             />
-                        );
-                    })}
-                </div>
-            </Boxdash>
-        </div>
+                        ) : (
+                            dadosAnimesFav.map((anime: any) => {
+                                return (
+                                    <CardAnimePadrao
+                                        key={anime[0].id}
+                                        link={anime[0].id}
+                                        imageSrc={`${urlImage}${anime[0].category_image}`}
+                                        id={anime[0].id}
+                                        name={anime[0].category_name}
+                                    />
+                                );
+                            })
+                        )}
+                    </div>
+                </Boxdash>
+            </div>
+        </>
     );
 }

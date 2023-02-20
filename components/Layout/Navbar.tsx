@@ -13,6 +13,9 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Link from "next/link";
+import LoaderLogo from "../loader/LoaderLogo";
+import { styled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 type Anchor = "top" | "left" | "bottom" | "Menu";
 
@@ -35,6 +38,29 @@ export function NavBar() {
             setState({ ...state, [anchor]: open });
         };
 
+    const paths = [
+        {
+            text: "Home",
+            link: "/home",
+        },
+        {
+            text: "Favoritos",
+            link: "/favoritos",
+        },
+        {
+            text: "Github",
+            link: "/home",
+        },
+        {
+            text: "LinkedIn",
+            link: "https://www.linkedin.com/in/keniel-nunes/",
+        },
+    ];
+
+    const restrictPaths = ["Home", "Github", "LinkedIn"];
+
+    const isScreenSmall = useMediaQuery("(min-width:767px)");
+
     const list = (anchor: Anchor) => (
         <Box
             sx={{
@@ -46,19 +72,28 @@ export function NavBar() {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {["Favoritos"].map((text, index) => {
+                {paths.map(({ text, link }, index) => {
+                    const shouldHide =
+                        restrictPaths.includes(text) && isScreenSmall;
                     return (
                         <div key={index}>
-                            <Link href="/favoritos">
-                                <ListItem key={text} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <FavoriteIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </Link>
+                            {shouldHide ? (
+                                <ListItem
+                                    key={index}
+                                    style={{ display: "none" }}
+                                />
+                            ) : (
+                                <Link href={link}>
+                                    <ListItem key={index} disablePadding>
+                                        <ListItemButton>
+                                            <ListItemIcon>
+                                                <FavoriteIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary={text} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </Link>
+                            )}
                         </div>
                     );
                 })}
@@ -68,11 +103,11 @@ export function NavBar() {
 
     return (
         <nav
-            className=" relative w-full flex flex-wrap items-center justify-between py-4 bg-transparent text-white  shadow-lg navbar navbar-expand-lg navbar-light
+            className="w-full flex flex-wrap items-center justify-between py-4 bg-transparent text-white  shadow-lg navbar navbar-expand-lg navbar-light
   "
         >
             <div className="container-fluid w-full flex flex-wrap items-center justify-between px-6">
-                <button
+                {/* <button
                     className=" navbar-toggler text-white border-0 hover:shadow-none hover:no-underline py-2 px-2.5 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none focus:no-underline
     "
                     type="button"
@@ -97,25 +132,47 @@ export function NavBar() {
                             d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
                         ></path>
                     </svg>
-                </button>
+                </button> */}
                 <div
-                    className="collapse navbar-collapse flex-grow items-center"
+                    className="flex flex-grow items-center"
                     id="navbarSupportedContent"
                 >
                     <a
                         className=" flex items-center text-white hover:text-white focus:text-white mt-2 lg:mt-0 mr-1
       "
-                        href="#"
+                        href=""
                     >
-                        <img className="h-4" alt="logo" loading="lazy" />
+                        <LoaderLogo />
                     </a>
-                    <ul className="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
+                    <ul className="navbar-nav flex lg:flex-col max-md:hidden gap-4 pl-8 list-style-none mr-auto">
                         <li className="nav-item p-2">
                             <a
-                                className="nav-link text-white hover:text-white focus:text-white p-0"
-                                href="#"
+                                className="hover:text-[#FF4655] duration-300"
+                                href="https://github.com/KenielDev"
+                                target={"_blank"}
+                                rel="noreferrer"
+                            >
+                                Home
+                            </a>
+                        </li>
+                        <li className="nav-item p-2">
+                            <a
+                                className="hover:text-[#FF4655] duration-300"
+                                href="https://github.com/KenielDev"
+                                target={"_blank"}
+                                rel="noreferrer"
                             >
                                 Github
+                            </a>
+                        </li>
+                        <li className="nav-item p-2">
+                            <a
+                                className="hover:text-[#FF4655] duration-300"
+                                href="https://www.linkedin.com/in/keniel-nunes/"
+                                target={"_blank"}
+                                rel="noreferrer"
+                            >
+                                LinkedIn
                             </a>
                         </li>
                     </ul>

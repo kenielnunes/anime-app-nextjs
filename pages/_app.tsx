@@ -61,7 +61,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <NavBar />
+            {router.pathname != "/login" && <NavBar />}
             <Component {...pageProps} />
             <GlobalStyle />
         </ThemeProvider>

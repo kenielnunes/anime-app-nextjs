@@ -416,7 +416,7 @@ const App = () => {
                                 return (
                                     <SplideSlide>
                                         <CardAnimePadrao
-                                            link={`anime/${popularData.id}`}
+                                            link={`${popularData.id}`}
                                             imageSrc={`${urlImage}${popularData.category_image}`}
                                             id={popularData.id}
                                             name={popularData.category_name}

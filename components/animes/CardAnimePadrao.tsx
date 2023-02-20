@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 interface Prop {
@@ -10,7 +11,7 @@ interface Prop {
 export default function CardAnimePadrao({ link, imageSrc, id, name }: Prop) {
     return (
         <div>
-            <a
+            <Link
                 href={`/anime/${link}`}
                 style={{
                     backgroundImage: `url(
@@ -29,7 +30,7 @@ export default function CardAnimePadrao({ link, imageSrc, id, name }: Prop) {
                         {name}
                     </div>
                 </div>
-            </a>
+            </Link>
         </div>
     );
 }

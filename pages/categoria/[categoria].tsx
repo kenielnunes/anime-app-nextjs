@@ -1,6 +1,5 @@
 import Head from "next/head";
 import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
-import Navbar from "../../components/Layout/Navbar";
 import MyPagination from "../../components/Layout/Pagination";
 
 export async function getStaticPaths() {
@@ -151,8 +150,6 @@ export default function CategoriesList({ animeInfo }: Prop) {
                     );
                 })}
             />
-            <Navbar />
-            {/* <Content /> */}
         </>
     );
 }
