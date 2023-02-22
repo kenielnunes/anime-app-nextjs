@@ -11,9 +11,7 @@ import Cookies from "js-cookie";
 import { convertStringToSlug } from "../../utils/formatStrings";
 
 export async function getStaticPaths() {
-    const request = await fetch(
-        `https://appanimeplus.tk/play-api.php?populares`
-    );
+    const request = await fetch(`${process.env.BASE_URL_ANIME_API}?populares`);
 
     const data = await request.json();
 
@@ -33,12 +31,12 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: any) {
     const responseEps = await fetch(
-        `https://appanimeplus.tk/play-api.php?cat_id=${params?.animeId}`
+        `${process.env.BASE_URL_ANIME_API}?cat_id=${params?.animeId}`
     );
     const dataEps = await responseEps.json();
 
     const responseInfo = await fetch(
-        `https://appanimeplus.tk/play-api.php?info=${params?.animeId}`
+        `${process.env.BASE_URL_ANIME_API}?info=${params?.animeId}`
     );
 
     const infoData = await responseInfo.json();
@@ -58,7 +56,7 @@ export default function Anime({ epsData, animeInfo }: any) {
     const [epsAssistidos, setEpsAssistidos] = useState<any>([]);
 
     const existeId = (ep: string) => {
-        const existe = epsAssistidos.some(
+        const existe = epsAssistidos?.some(
             (episodioAssistido: { videoId: string }) =>
                 episodioAssistido?.videoId == ep
         );
@@ -90,7 +88,7 @@ export default function Anime({ epsData, animeInfo }: any) {
         };
 
         fetch(
-            `https://api-project-vdlx.onrender.com/watched-videos/user/${storageId}`,
+            `${process.env.BASE_URL_API_USERS}/watched-videos/user/${storageId}`,
             requestOptions
         )
             .then((response) => response.json())
@@ -120,7 +118,7 @@ export default function Anime({ epsData, animeInfo }: any) {
     const [idVideoAtual, setVideoIdAtual] = useState("");
 
     function getVideo(idVideo: any) {
-        fetch(`https://appanimeplus.tk/play-api.php?episodios=${idVideo}`)
+        fetch(`${process.env.BASE_URL_ANIME_API}?episodios=${idVideo}`)
             .then((response) => response.json())
             .then((result) => {
                 setVideoIdAtual(idVideo);
@@ -149,7 +147,7 @@ export default function Anime({ epsData, animeInfo }: any) {
                 redirect: "follow",
             };
             fetch(
-                `https://api-project-vdlx.onrender.com/watched-videos/${uuId}`,
+                `${process.env.BASE_URL_API_USERS}/watched-videos/${uuId}`,
                 requestOptions
             )
                 .then((response) => response.json())
@@ -169,7 +167,7 @@ export default function Anime({ epsData, animeInfo }: any) {
                 redirect: "follow",
             };
             fetch(
-                "https://api-project-vdlx.onrender.com/watched-videos/",
+                `${process.env.BASE_URL_API_USERS}/watched-videos/`,
                 requestOptions
             )
                 .then((response) => response.json())
@@ -193,7 +191,7 @@ export default function Anime({ epsData, animeInfo }: any) {
 
     function setNextEp() {
         fetch(
-            `https://appanimeplus.tk/play-api.php?episodios=${idVideoAtual}&catid=${animeInfo[0].id}&next`
+            `${process.env.BASE_URL_ANIME_API}?episodios=${idVideoAtual}&catid=${animeInfo[0].id}&next`
         )
             .then((response) => response.json())
             .then((result) => {

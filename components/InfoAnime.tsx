@@ -16,14 +16,14 @@ export default function InfoAnime({
     const [favoritos, setFavoritos] = useState<any[]>([]);
 
     function verificaUuID(id: number) {
-        const video = favoritos.find(
+        const video = favoritos?.find(
             (x: { videoId: number }) => x?.videoId == id
         );
         return video?.id;
     }
 
     const existeId = (videoID: string) => {
-        const existe = favoritos.some(
+        const existe = favoritos?.some(
             (favorito: { videoId: string }) => favorito?.videoId == videoID
         );
         if (existe) {
@@ -46,7 +46,7 @@ export default function InfoAnime({
         };
 
         fetch(
-            `https://api-project-vdlx.onrender.com/favorite-videos/user/${storageId}`,
+            `${process.env.BASE_URL_API_USERS}/favorite-videos/user/${storageId}`,
             requestOptions
         )
             .then((response) => response.json())
@@ -77,7 +77,7 @@ export default function InfoAnime({
                 redirect: "follow",
             };
             fetch(
-                ` https://api-project-vdlx.onrender.com/favorite-videos/${uuID}`,
+                `${process.env.BASE_URL_API_USERS}/favorite-videos/${uuID}`,
                 requestOptions
             )
                 .then((response) => response.json())

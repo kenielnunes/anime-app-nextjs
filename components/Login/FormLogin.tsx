@@ -29,17 +29,13 @@ const FormLogin = ({ onRegisterClick }: LoginFormProps) => {
 
         try {
             const response = await axios.post(
-                "https://api-project-vdlx.onrender.com/login/user",
+                `${process.env.BASE_URL_API_USERS}/login/user`,
                 data,
                 requestOptions
             );
 
             localStorage.setItem("token", response.data.accessToken);
 
-            console.log(
-                "🚀 ~ file: FormLogin.tsx:37 ~ handleSubmit ~ response",
-                response
-            );
             setLoading(false);
             Router.push("/home");
         } catch (error) {

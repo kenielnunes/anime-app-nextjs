@@ -22,6 +22,7 @@ import { NavBar } from "../../components/Layout/Navbar";
 import CardAnimePadrao from "../../components/animes/CardAnimePadrao";
 import InputPadrão from "../../components/inputs/InputPadrao";
 import jwt from "jsonwebtoken";
+import Carousel from "../../components/carrossel/Carrossel";
 
 const App = () => {
     const [recentAnimeData, setRecentAnimeData] = useState<any>([]);
@@ -33,14 +34,14 @@ const App = () => {
     }, [width]);
 
     function getLatest() {
-        fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
+        fetch(`${process.env.BASE_URL_ANIME_API}?latest`, requestOptions)
             .then((response) => response.json())
             .then((result) => setRecentAnimeData(result))
             .catch((error) => console.log("error", error));
     }
 
     function getPopulares() {
-        fetch("https://appanimeplus.tk/play-api.php?populares", requestOptions)
+        fetch(`${process.env.BASE_URL_ANIME_API}?populares`, requestOptions)
             .then((response) => response.json())
             .then((result) => setPopularAnimeData(result))
             .catch((error) => console.log("error", error));
@@ -70,7 +71,7 @@ const App = () => {
         Notification.requestPermission().then(function (permission) {
             if (permission === "granted") {
                 fetch(
-                    "https://appanimeplus.tk/play-api.php?latest",
+                    `${process.env.BASE_URL_ANIME_API}?latest`,
                     requestOptions
                 )
                     .then((response) => response.json())
@@ -117,20 +118,6 @@ const App = () => {
         method: "GET",
         redirect: "follow",
     };
-
-    // useEffect(() => {
-    //     fetch("https://appanimeplus.tk/play-api.php?latest", requestOptions)
-    //         .then((response) => response.json())
-    //         .then((result) => setRecentAnimeData(result))
-    //         .catch((error) => console.log("error", error));
-    // }, []);
-
-    // useEffect(() => {
-    //     fetch("https://appanimeplus.tk/play-api.php?populares", requestOptions)
-    //         .then((response) => response.json())
-    //         .then((result) => setPopularAnimeData(result))
-    //         .catch((error) => console.log("error", error));
-    // }, []);
 
     useEffect(() => {
         setLoading(true);
@@ -190,7 +177,7 @@ const App = () => {
         const [animeEnabledSearch, setAnimeEnabledSearch] = useState([]);
 
         useEffect(() => {
-            fetch(`https://appanimeplus.tk/play-api.php?search=${searchAnime}`)
+            fetch(`${process.env.BASE_URL_ANIME_API}?search=${searchAnime}`)
                 .then((response) => response.json())
                 .then((result) => {
                     setAnimeEnabledSearch(result);
@@ -226,8 +213,6 @@ const App = () => {
         interface User {
             name: string;
         }
-
-        const [dadosUserLogado, setDadosUserLogado] = useState<User>();
 
         return (
             <div className="flex mx-auto overflow-x-hidden flex-col">
@@ -366,13 +351,19 @@ const App = () => {
                 ) : (
                     <>
                         <div className="px-12 ">
-                            <div className="text-2xl font-bold">Categorias</div>
+                            {/* <div className="text-white">
+                                <Carousel itemsPerSlide={5}>
+                                    <div>1</div>
+                                    <div>2</div>
+                                    <div>3</div>
+                                    <div>4</div>
+                                    <div>5</div>
+                                    <div>6</div>
+                                    <div>7</div>
+                                </Carousel>
+                            </div> */}
 
-                            {/* <VideoPlayer
-                                url={
-                                    "https://get.atv2.net/m.php?token=b2FHWDlWUG9DbE9reGlaT1hXMmlOaVF0aFZwWTRmdmJOeFI3SXVtS1B4Z2N5VWRScnVMUzRlakpxSEFsdmRhM0pocXVNQXprd3R6c291elRLeURNdE5kRzQ1dDJ0QTZCSkFNa3M5MFpYelBVM0xPUm9TTFdDY2JhOXZ6U25Lb0ROMDVOakZjMUV6VWlrVzFmVzZQVFVRcDI0ODFaSlRpdENlVVdOSWdUbXJZczNFaXZSd3RPTEV1KzdsZitTaHd1&qh=hd"
-                                }
-                            /> */}
+                            <div className="text-2xl font-bold">Categorias</div>
 
                             <div className="flex flex-wrap mx-auto py-10 gap-10">
                                 {categorias.map((categoria: string) => {

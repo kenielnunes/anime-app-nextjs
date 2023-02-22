@@ -5,7 +5,7 @@ import AnimesListOverflow from "../../components/AnimesListOverflow";
 
 export async function getStaticProps({ params }: any) {
     const responseDataEp = await fetch(
-        `https://appanimeplus.tk/play-api.php?episodios=${params.episodioId}`
+        `${process.env.BASE_URL_ANIME_API}?episodios=${params.episodioId}`
     );
     const dataEp = await responseDataEp.json();
 
@@ -22,7 +22,7 @@ export async function getStaticPaths() {
         redirect: "follow",
     };
     const request = await fetch(
-        `https://appanimeplus.tk/play-api.php?latest`,
+        `${process.env.BASE_URL_ANIME_API}?latest`,
         requestOptions
     )
         .then((response) => response.json())

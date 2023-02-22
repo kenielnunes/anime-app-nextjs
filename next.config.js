@@ -9,6 +9,10 @@ const nextConfig = {
     images: {
         domains: ["storage.googleapis.com"],
     },
+    env: {
+        BASE_URL_ANIME_API: process.env.BASE_URL_ANIME_API,
+        BASE_URL_API_USERS: process.env.BASE_URL_API_USERS,
+    },
 
     output: "standalone",
 

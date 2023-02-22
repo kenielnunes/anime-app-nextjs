@@ -14,15 +14,17 @@ export default function Favoritos() {
     useEffect(() => {
         const fetchData = async () => {
             const tempData = [];
-            for (const anime of favoritos) {
-                try {
-                    const response = await fetch(
-                        `https://appanimeplus.tk/play-api.php?info=${anime.videoId}`
-                    );
-                    const result = await response.json();
-                    tempData.push(result);
-                } catch (error) {
-                    console.log("error", error);
+            if (Array.isArray(favoritos)) {
+                for (const anime of favoritos) {
+                    try {
+                        const response = await fetch(
+                            `${process.env.BASE_URL_ANIME_API}?info=${anime?.videoId}`
+                        );
+                        const result = await response.json();
+                        tempData.push(result);
+                    } catch (error) {
+                        console.log("error", error);
+                    }
                 }
             }
             setDadosAnimesFav(tempData);
@@ -46,7 +48,7 @@ export default function Favoritos() {
         setLoading(true);
 
         fetch(
-            `https://api-project-vdlx.onrender.com/favorite-videos/user/${storageId}`,
+            `${process.env.BASE_URL_API_USERS}/favorite-videos/user/${storageId}`,
             requestOptions
         )
             .then((response) => response.json())
@@ -71,7 +73,9 @@ export default function Favoritos() {
                     Favoritos
                 </div>
                 <div className="flex text-white overflow-auto justify-center lg:justify-start h-screen gap-4 flex-wrap">
-                    {loading ? (
+                    {favoritos?.length <= 0 ? (
+                        "Nada encontrado"
+                    ) : loading ? (
                         <Skeleton
                             sx={{ width: "100%", height: "240px" }}
                             variant="rectangular"

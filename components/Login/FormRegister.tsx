@@ -49,7 +49,7 @@ const FormRegister = ({ onLoginClick }: RegisterFormProps) => {
             redirect: "follow",
         };
 
-        fetch("https://api-project-vdlx.onrender.com/users", requestOptions)
+        fetch(`${process.env.BASE_URL_API_USERS}/users`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result.statusCode == 200) {
@@ -57,12 +57,14 @@ const FormRegister = ({ onLoginClick }: RegisterFormProps) => {
                     setEmail("");
                     setPassword("");
                     setLoading(false);
+                    onLoginClick();
                     alert(result.message);
                 } else {
                     setUsername("");
                     setEmail("");
                     setPassword("");
                     setLoading(false);
+                    onLoginClick();
                     alert("Ocorreu um erro, tente novamente!");
                 }
             })
