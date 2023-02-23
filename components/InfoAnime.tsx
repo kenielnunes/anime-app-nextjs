@@ -77,7 +77,7 @@ export default function InfoAnime({
                 redirect: "follow",
             };
             fetch(
-                `${process.env.BASE_URL_API_USERS}/favorite-videos/`,
+                `${process.env.BASE_URL_API_USERS}/favorite-videos/${uuID}`,
                 requestOptions
             )
                 .then((response) => response.json())

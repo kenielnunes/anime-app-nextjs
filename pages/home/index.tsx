@@ -95,7 +95,7 @@ const App = () => {
         getLatest();
         getPopulares();
 
-        const tokenJWT = localStorage.getItem("token");
+        const tokenJWT: any = localStorage.getItem("token");
 
         function getPayloadFromToken(token: string) {
             const decodedToken = jwt.decode(token, { complete: true });
@@ -105,11 +105,8 @@ const App = () => {
             return decodedToken.payload;
         }
 
-        const token: any = tokenJWT;
-        const payload: any = getPayloadFromToken(token);
-        console.log("🚀 ~ file: index.tsx:113 ~ useEffect ~ payload", payload);
+        const payload: any = getPayloadFromToken(tokenJWT);
         localStorage.setItem("userId", payload.sub);
-        const storageId = localStorage.getItem("userId");
     }, []);
 
     const [loading, setLoading] = useState(false);

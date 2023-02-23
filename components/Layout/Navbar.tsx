@@ -16,6 +16,8 @@ import Link from "next/link";
 import LoaderLogo from "../loader/LoaderLogo";
 import { styled } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useEffect, useState } from "react";
+import jwt from "jsonwebtoken";
 
 type Anchor = "top" | "left" | "bottom" | "Menu";
 
@@ -60,6 +62,28 @@ export function NavBar() {
     const restrictPaths = ["Home", "Github", "LinkedIn"];
 
     const isScreenSmall = useMediaQuery("(min-width:767px)");
+
+    interface User {
+        email: string;
+        name: string;
+    }
+
+    const [user, setUser] = useState<User>();
+
+    useEffect(() => {
+        const tokenJWT: any = localStorage.getItem("token");
+
+        function getPayloadFromToken(token: string) {
+            const decodedToken = jwt.decode(token, { complete: true });
+            if (!decodedToken) {
+                throw new Error("Token inválido");
+            }
+            return decodedToken.payload;
+        }
+
+        const payload: any = getPayloadFromToken(tokenJWT);
+        setUser(payload);
+    }, []);
 
     const list = (anchor: Anchor) => (
         <Box
@@ -150,7 +174,7 @@ export function NavBar() {
                         </li>
                     </ul>
                 </div>
-
+                <div>Olá {user?.name}</div>
                 <div className="flex items-center relative">
                     {(["Menu"] as const).map((anchor) => (
                         <React.Fragment key={anchor}>
