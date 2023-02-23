@@ -38,7 +38,7 @@ const LoginForm = () => {
                 ) : (
                     <FormRegister onLoginClick={handleLoginClick} />
                 )}
-                <Banner />
+                {/* <Banner /> */}
             </div>
         </>
     );
