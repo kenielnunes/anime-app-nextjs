@@ -54,6 +54,10 @@ export default function Anime({ epsData, animeInfo }: any) {
     const [stream, setStream] = useState("");
     const [idUser, setIdUser] = useState("");
     const [epsAssistidos, setEpsAssistidos] = useState<any>([]);
+    console.log(
+        "🚀 ~ file: [animeId].tsx:57 ~ Anime ~ epsAssistidos:",
+        epsAssistidos
+    );
 
     const existeId = (ep: string) => {
         const existe = epsAssistidos?.some(
@@ -68,7 +72,7 @@ export default function Anime({ epsData, animeInfo }: any) {
     };
 
     function verificaUuID(id: number) {
-        const video = epsAssistidos.find(
+        const video = epsAssistidos?.find(
             (x: { videoId: number }) => x?.videoId == id
         );
         return video?.id;
@@ -88,7 +92,7 @@ export default function Anime({ epsData, animeInfo }: any) {
         };
 
         fetch(
-            `${process.env.BASE_URL_API_USERS}/watched-videos/user/${storageId}`,
+            `${process.env.BASE_URL_API_USERS}/watched-videos/user/`,
             requestOptions
         )
             .then((response) => response.json())
@@ -147,11 +151,15 @@ export default function Anime({ epsData, animeInfo }: any) {
                 redirect: "follow",
             };
             fetch(
-                `${process.env.BASE_URL_API_USERS}/watched-videos/${uuId}`,
+                `${process.env.BASE_URL_API_USERS}/watched-videos/`,
                 requestOptions
             )
                 .then((response) => response.json())
                 .then((result) => {
+                    console.log(
+                        "🚀 ~ file: [animeId].tsx:155 ~ .then ~ result:",
+                        result
+                    );
                     setEpsAssistidos(
                         epsAssistidos.filter(
                             (ep: { id: string }) => ep.id !== uuId
@@ -172,6 +180,10 @@ export default function Anime({ epsData, animeInfo }: any) {
             )
                 .then((response) => response.json())
                 .then((result) => {
+                    console.log(
+                        "🚀 ~ file: [animeId].tsx:176 ~ .then ~ result:",
+                        result
+                    );
                     setEpsAssistidos([...epsAssistidos, result.data]);
                 })
                 .catch((error) => console.log("error", error));

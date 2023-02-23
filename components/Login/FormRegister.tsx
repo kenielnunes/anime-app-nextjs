@@ -65,7 +65,7 @@ const FormRegister = ({ onLoginClick }: RegisterFormProps) => {
                     setPassword("");
                     setLoading(false);
                     onLoginClick();
-                    alert("Ocorreu um erro, tente novamente!");
+                    alert(result.message);
                 }
             })
             .catch((error) => console.log("error", error));

@@ -77,7 +77,7 @@ export default function InfoAnime({
                 redirect: "follow",
             };
             fetch(
-                `${process.env.BASE_URL_API_USERS}/favorite-videos/${uuID}`,
+                `${process.env.BASE_URL_API_USERS}/favorite-videos/`,
                 requestOptions
             )
                 .then((response) => response.json())
@@ -100,7 +100,7 @@ export default function InfoAnime({
                 redirect: "follow",
             };
             fetch(
-                "https://api-project-vdlx.onrender.com/favorite-videos/",
+                `${process.env.BASE_URL_API_USERS}/favorite-videos/`,
                 requestOptions
             )
                 .then((response) => response.json())
