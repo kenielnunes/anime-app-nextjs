@@ -23,41 +23,41 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         use();
     }, []);
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        let timer: NodeJS.Timeout;
+    // useEffect(() => {
+    //     const token = localStorage.getItem("token");
+    //     let timer: NodeJS.Timeout;
 
-        if (!token) {
-            router.push("/login");
-        } else {
-            const decodedToken: any = jwt_decode(token);
-            if (decodedToken.exp < new Date().getTime() / 1000) {
-                // token expirado
-                localStorage.removeItem("token"); // Remove o token expirado do localStorage
-                router.push("/login");
-            } else {
-                // token válido
-                timer = setInterval(() => {
-                    const decodedToken: any = jwt_decode(token);
-                    if (decodedToken.exp < new Date().getTime() / 1000) {
-                        // token expirado
-                        clearInterval(timer);
-                        localStorage.removeItem("token"); // Remove o token expirado do localStorage
-                        router.push("/login");
-                    }
-                }, 60000); // Verifica a cada minuto
-            }
-        }
+    //     if (!token) {
+    //         router.push("/login");
+    //     } else {
+    //         const decodedToken: any = jwt_decode(token);
+    //         if (decodedToken.exp < new Date().getTime() / 1000) {
+    //             // token expirado
+    //             localStorage.removeItem("token"); // Remove o token expirado do localStorage
+    //             router.push("/login");
+    //         } else {
+    //             // token válido
+    //             timer = setInterval(() => {
+    //                 const decodedToken: any = jwt_decode(token);
+    //                 if (decodedToken.exp < new Date().getTime() / 1000) {
+    //                     // token expirado
+    //                     clearInterval(timer);
+    //                     localStorage.removeItem("token"); // Remove o token expirado do localStorage
+    //                     router.push("/login");
+    //                 }
+    //             }, 60000); // Verifica a cada minuto
+    //         }
+    //     }
 
-        return () => clearInterval(timer);
-    }, []);
+    //     return () => clearInterval(timer);
+    // }, []);
 
     setTimeout(() => {}, 10000);
 
-    if (router.pathname === "/" && !localStorage.getItem("token")) {
-        router.push("/login");
-        return <LoginForm />;
-    }
+    // if (router.pathname === "/" && !localStorage.getItem("token")) {
+    //     router.push("/login");
+    //     return <LoginForm />;
+    // }
 
     return (
         <ThemeProvider theme={theme}>

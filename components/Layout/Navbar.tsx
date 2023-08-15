@@ -70,20 +70,20 @@ export function NavBar() {
 
     const [user, setUser] = useState<User>();
 
-    useEffect(() => {
-        const tokenJWT: any = localStorage.getItem("token");
+    // useEffect(() => {
+    //     const tokenJWT: any = localStorage.getItem("token");
 
-        function getPayloadFromToken(token: string) {
-            const decodedToken = jwt.decode(token, { complete: true });
-            if (!decodedToken) {
-                throw new Error("Token inválido");
-            }
-            return decodedToken.payload;
-        }
+    //     function getPayloadFromToken(token: string) {
+    //         const decodedToken = jwt.decode(token, { complete: true });
+    //         if (!decodedToken) {
+    //             console.log("Token inválido");
+    //         }
+    //         return decodedToken?.payload;
+    //     }
 
-        const payload: any = getPayloadFromToken(tokenJWT);
-        setUser(payload);
-    }, []);
+    //     const payload: any = getPayloadFromToken(tokenJWT);
+    //     setUser(payload);
+    // }, []);
 
     const list = (anchor: Anchor) => (
         <Box

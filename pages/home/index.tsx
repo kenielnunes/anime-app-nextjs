@@ -95,18 +95,18 @@ const App = () => {
         getLatest();
         getPopulares();
 
-        const tokenJWT: any = localStorage.getItem("token");
+        // const tokenJWT: any = localStorage.getItem("token");
 
-        function getPayloadFromToken(token: string) {
-            const decodedToken = jwt.decode(token, { complete: true });
-            if (!decodedToken) {
-                throw new Error("Token inválido");
-            }
-            return decodedToken.payload;
-        }
+        // function getPayloadFromToken(token: string) {
+        //     const decodedToken = jwt.decode(token, { complete: true });
+        //     if (!decodedToken) {
+        //         throw new Error("Token inválido");
+        //     }
+        //     return decodedToken.payload;
+        // }
 
-        const payload: any = getPayloadFromToken(tokenJWT);
-        localStorage.setItem("userId", payload.sub);
+        // const payload: any = getPayloadFromToken(tokenJWT);
+        // localStorage.setItem("userId", payload.sub);
     }, []);
 
     const [loading, setLoading] = useState(false);
